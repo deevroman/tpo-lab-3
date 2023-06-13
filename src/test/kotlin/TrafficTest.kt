@@ -17,6 +17,7 @@ class TrafficTest: BaseTest() {
         val trafficText = mainPage.driver.findElement(cssSelector(".traffic-panel-view__dropdown-title"))
             .text.split(" ")
 
+        println(trafficText) // fixes index out of bound
         assertEquals(trafficText[0], "Пробки")
         assertTrue(trafficText[1].toInt() in 1..10)
         assertEquals(trafficText[2], "балла")
