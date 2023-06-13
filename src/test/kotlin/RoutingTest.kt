@@ -15,11 +15,11 @@ class RoutingTest : BaseTest() {
     }
 
     private fun simpleRouteOneDriver(d: WebDriver) {
-        elementToBeClickable(xpath("//input")).wait(d)
-        d.findElement(xpath("//input")).sendKeys("кронверский 49", Keys.ENTER)
+        val mainPage = MainPage(d)
+        mainPage.inputQuery("кронверский 49")
         elementToBeClickable(cssSelector(".\\_view_primary > .button__icon > .inline-image")).wait(d)
-        d.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
+        mainPage.driver.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
         elementToBeClickable(xpath("//div[2]/div/div/span/span/input")).wait(d)
-        d.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
+        mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
     }
 }
