@@ -4,7 +4,6 @@ import org.openqa.selenium.By.xpath
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
-import org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe
 
 
 class RoutingTest : BaseTest() {
@@ -41,17 +40,8 @@ class RoutingTest : BaseTest() {
         mainPage.driver.findElement(cssSelector("._no-shadow")).click()
         mainPage.driver.findElement(cssSelector(".list-item-view:nth-child(1) > .list-item-view__content")).click()
 
-        // Wait for the new window or tab
-        numberOfWindowsToBe(2).wait(d)
+        assertWindowSwitched(d)
 
-        val originalWindow: String = d.windowHandle
-        // Loop through until we find a new window handle
-        for (windowHandle in d.windowHandles) {
-            if (!originalWindow.contentEquals(windowHandle)) {
-                d.switchTo().window(windowHandle)
-                break
-            }
-        }
         mainPage.driver.findElement(cssSelector(".print-controls-view__page-controls:nth-child(1) > .print-controls-view__control .button__text"))
     }
 }

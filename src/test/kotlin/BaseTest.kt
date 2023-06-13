@@ -2,18 +2,16 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.net.MalformedURLException
 import java.net.URL
 import java.time.Duration
 import java.time.temporal.ChronoUnit
-import java.util.function.Function
 
 open class BaseTest(private val baseUrl: String = "https://yandex.ru/maps") {
     lateinit var drivers: Map<String, WebDriver>
@@ -97,6 +95,20 @@ open class BaseTest(private val baseUrl: String = "https://yandex.ru/maps") {
             driver,
             Duration.ofSeconds(7)
         ).until(this)
+    }
+
+    fun assertWindowSwitched(d: WebDriver) {
+        // Wait for the new window or tab
+        ExpectedConditions.numberOfWindowsToBe(2).wait(d)
+
+        val originalWindow: String = d.windowHandle
+        // Loop through until we find a new window handle
+        for (windowHandle in d.windowHandles) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                d.switchTo().window(windowHandle)
+                break
+            }
+        }
     }
 
     @AfterEach
