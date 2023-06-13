@@ -53,4 +53,22 @@ class RoutingTest : BaseTest() {
 
         mainPage.driver.findElement(cssSelector(".print-controls-view__page-controls:nth-child(1) > .print-controls-view__control .button__text"))
     }
+
+    @Test
+    fun taxi() {
+        runTest(::taxiOneDriver, drivers)
+    }
+
+    private fun taxiOneDriver(d: WebDriver) {
+        val mainPage = MainPage(d)
+
+        mainPage.driver.findElement(cssSelector(".small-search-form-view__icon path:nth-child(2)")).click()
+        mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).click()
+        mainPage.inputQuery("кронверский 49")
+        mainPage.driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input")).click()
+        mainPage.inputQuery("думская")
+        mainPage.driver.findElement(cssSelector("._mode_taxi")).click()
+        mainPage.driver.findElement(xpath("//span[contains(.,'Выбрать тариф')]")).click()
+    }
+
 }
