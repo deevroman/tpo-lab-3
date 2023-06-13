@@ -64,9 +64,10 @@ class RoutingTest : BaseTest() {
 
         mainPage.driver.findElement(cssSelector(".small-search-form-view__icon path:nth-child(2)")).click()
         mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).click()
-        mainPage.inputQuery("кронверский 49")
-        mainPage.driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input")).click()
-        mainPage.inputQuery("думская")
+        mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input"))
+            .sendKeys("кронверский 49", Keys.ENTER)
+        mainPage.driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input"))
+            .sendKeys("думская 4", Keys.ENTER)
         mainPage.driver.findElement(cssSelector("._mode_taxi")).click()
         mainPage.driver.findElement(xpath("//span[contains(.,'Выбрать тариф')]")).click()
     }
