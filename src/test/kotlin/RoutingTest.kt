@@ -17,9 +17,16 @@ class RoutingTest : BaseTest() {
     private fun simpleRouteOneDriver(d: WebDriver) {
         val mainPage = MainPage(d)
         mainPage.inputQuery("кронверский 49")
+
         elementToBeClickable(cssSelector(".\\_view_primary > .button__icon > .inline-image")).wait(d)
         mainPage.driver.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
+
         elementToBeClickable(xpath("//div[2]/div/div/span/span/input")).wait(d)
         mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
+        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
+
+        elementToBeClickable(cssSelector(".\\_mode_masstransit")).wait(d) // TODO добавить разных видов транпорта
+        mainPage.driver.findElement(cssSelector(".\\_mode_masstransit")).click()
+        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
     }
 }
