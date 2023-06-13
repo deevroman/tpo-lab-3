@@ -24,8 +24,17 @@ class RoutingTest : BaseTest() {
         mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
         elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
 
-        elementToBeClickable(cssSelector(".\\_mode_masstransit")).wait(d) // TODO добавить разных видов транпорта
-        mainPage.driver.findElement(cssSelector(".\\_mode_masstransit")).click()
+        setOf(
+            "._mode_masstransit",
+            "._mode_bicycle",
+            "._mode_auto",
+            "._mode_scooter",
+            "._mode_taxi"
+        ).forEach {
+            elementToBeClickable(cssSelector(it)).wait(d)
+            mainPage.driver.findElement(cssSelector(it)).click()
+        }
+
         elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
     }
 
