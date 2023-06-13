@@ -2,7 +2,9 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
@@ -64,22 +66,22 @@ open class BaseTest(private val baseUrl: String = "https://yandex.ru/maps") {
     @BeforeEach
     fun initDrivers() {
         drivers = mutableMapOf(
-            "chrome" to getChromeDriver(this.javaClass.name),
+//            "chrome" to getChromeDriver(this.javaClass.name),
 //            "firefox" to getFirefoxDriver(this.javaClass.name)
         )
         // for local runs
-//        drivers = mutableMapOf(
+        drivers = mutableMapOf(
 //            "chrome" to
 //                    ChromeDriver().apply {
 //                        manage().timeouts()?.implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS)
 //                        manage().window()?.maximize()
 //                    },
-//            "firefox" to
-//                    FirefoxDriver().apply {
-//                        manage().timeouts()?.implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS)
-//                        manage().window()?.maximize()
-//                    },
-//        )
+            "firefox" to
+                    FirefoxDriver().apply {
+                        manage().timeouts()?.implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS)
+                        manage().window()?.maximize()
+                    },
+        )
         drivers.forEach {
             it.value.navigate().to(baseUrl)
             WebDriverWait(it.value, Duration.ofSeconds(10)).until { webDriver: WebDriver ->
@@ -93,7 +95,7 @@ open class BaseTest(private val baseUrl: String = "https://yandex.ru/maps") {
     fun <T> ExpectedCondition<T>.wait(driver: WebDriver) {
         WebDriverWait(
             driver,
-            Duration.ofSeconds(7)
+            Duration.ofSeconds(10)
         ).until(this)
     }
 

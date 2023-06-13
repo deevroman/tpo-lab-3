@@ -1,3 +1,4 @@
+import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -17,8 +18,8 @@ class MainPage(driver: WebDriver) {
     @FindBy(xpath = "//input")
     private val searchInput: WebElement? = null
 
-    // кнопка с тремя точками
-    @FindBy(css = ".traffic-control > .button")
+    // кнопка пробок
+    @FindBy(css = ".traffic-raw-icon__text")
     private val trafficButton: WebElement? = null
 
     // кнопка с тремя точками

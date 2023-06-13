@@ -3,8 +3,10 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions
+import java.time.Duration
 
-class TrafficTest: BaseTest() {
+class TrafficTest : BaseTest() {
     @Test
     fun traffic() {
         runTest(::trafficOneDriver, drivers)
@@ -13,7 +15,10 @@ class TrafficTest: BaseTest() {
     private fun trafficOneDriver(d: WebDriver) {
         val mainPage = MainPage(d)
 
-        mainPage.driver.findElement(cssSelector(".traffic-raw-icon__text")).click()
+        mainPage.clickTrafficButton()
+        Thread.sleep(Duration.ofSeconds(5).toMillis())
+        ExpectedConditions.elementToBeClickable(cssSelector(".traffic-panel-view__dropdown-title"))
+            .wait(mainPage.driver)
         val trafficText = mainPage.driver.findElement(cssSelector(".traffic-panel-view__dropdown-title"))
             .text.split(" ")
 
