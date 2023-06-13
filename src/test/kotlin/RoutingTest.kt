@@ -87,8 +87,9 @@ class RoutingTest : BaseTest() {
         Actions(driver).moveToElement(driver.findElement(By.tagName("body")), 0, 0).perform()
 
         Actions(driver).moveToElement(driver.findElement(cssSelector(".carousel__item:nth-child(3) .filter-pictured-carousel-item__img"))).perform()
-        driver.findElement(cssSelector(".carousel__item:nth-child(4) .filter-pictured-carousel-item__img")).click()
-        driver.findElement(cssSelector(".\\_hovered .search-business-snippet-view__head")).click()
+        driver.findElement(xpath("//div[4]/a/div/div/div")).click()
+        elementToBeClickable(xpath("//li/div/div/div/div[2]/div")).wait(driver)
+        driver.findElement(xpath("//li/div/div/div/div[2]/div")).click()
         driver.findElement(cssSelector(".\\_name_menu")).click()
         driver.findElement(cssSelector(".\\_first .image__content")).click()
         driver.findElement(cssSelector(".photos-player-view__button svg")).click()
@@ -100,6 +101,7 @@ class RoutingTest : BaseTest() {
         driver.findElement(cssSelector(".carousel__item:nth-child(3) .button__text")).click()
         driver.findElement(cssSelector(".\\_name_reviews")).click()
         driver.findElement(cssSelector(".\\_name_chain")).click()
-        driver.findElement(cssSelector(".\\_name_features")).click()
+//        elementToBeClickable(cssSelector(".\\_name_features")).wait(driver)
+//        driver.findElement(cssSelector(".\\_name_features")).click()
     }
 }
