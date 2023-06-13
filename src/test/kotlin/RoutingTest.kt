@@ -1,8 +1,10 @@
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.By.xpath
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 
 
@@ -72,4 +74,32 @@ class RoutingTest : BaseTest() {
         mainPage.driver.findElement(xpath("//span[contains(.,'Выбрать тариф')]")).click()
     }
 
+    @Test
+    fun nearestBar() {
+        runTest(::nearestBarOneDriver, drivers)
+    }
+
+    private fun nearestBarOneDriver(driver: WebDriver) {
+        Actions(driver).moveToElement(driver.findElement(cssSelector(".\\_id_food .catalog-grid-view__text"))).perform()
+        Actions(driver).moveToElement(driver.findElement(By.tagName("body")), 0, 0).perform()
+        driver.findElement(cssSelector(".\\_id_food > .catalog-grid-view__icon")).click()
+        Actions(driver).moveToElement(driver.findElement(cssSelector(".carousel__item:nth-child(2) .filter-pictured-carousel-item"))).perform()
+        Actions(driver).moveToElement(driver.findElement(By.tagName("body")), 0, 0).perform()
+
+        Actions(driver).moveToElement(driver.findElement(cssSelector(".carousel__item:nth-child(3) .filter-pictured-carousel-item__img"))).perform()
+        driver.findElement(cssSelector(".carousel__item:nth-child(4) .filter-pictured-carousel-item__img")).click()
+        driver.findElement(cssSelector(".\\_hovered .search-business-snippet-view__head")).click()
+        driver.findElement(cssSelector(".\\_name_menu")).click()
+        driver.findElement(cssSelector(".\\_first .image__content")).click()
+        driver.findElement(cssSelector(".photos-player-view__button svg")).click()
+        driver.findElement(cssSelector(".\\_name_posts")).click()
+        driver.findElement(cssSelector(".business-posts-list-post-view:nth-child(1) > .business-posts-list-post-view__read-more"))
+            .click()
+        driver.findElement(cssSelector(".\\_name_gallery")).click()
+        driver.findElement(cssSelector(".carousel__item:nth-child(2) .button__text")).click()
+        driver.findElement(cssSelector(".carousel__item:nth-child(3) .button__text")).click()
+        driver.findElement(cssSelector(".\\_name_reviews")).click()
+        driver.findElement(cssSelector(".\\_name_chain")).click()
+        driver.findElement(cssSelector(".\\_name_features")).click()
+    }
 }
