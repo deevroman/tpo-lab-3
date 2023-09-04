@@ -1,0 +1,13 @@
+{
+  "browsers": ["firefox"],
+  "local": true,
+  "opts": {
+    "sessionTimeout": "15m",
+    "env": ["TZ=UTC"],
+    "labels": {
+      "manual": "true"
+    },
+    "enableVideo": false,
+    "enableVNC": true
+  }
+}
