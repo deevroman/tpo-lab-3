@@ -15,10 +15,11 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 class DriversSupplier(
-    private val config: DriversConfig
+    private val driversConfig: DriversConfig,
+    private val selenoidBrowsersConfig: SelenoidBrowsersConfig
 ): () -> Map<String, WebDriver> {
     override fun invoke(): Map<String, WebDriver> =
-        if (config.local) localDrivers(config.browsers) else selenoidDrivers(config.browsers)
+        if (driversConfig.local) localDrivers(driversConfig.browsers) else selenoidDrivers(driversConfig.browsers)
 
     private fun selenoidDrivers(browsers: Set<String>) = browsers.associateWith {
         when (it) {
@@ -47,7 +48,7 @@ class DriversSupplier(
     }
 
     private fun opts(name: String): Map<String, Any?> {
-        return with(config.opts) {
+        return with(driversConfig.opts) {
             mutableMapOf(
                 "name" to name,
                 "sessionTimeout" to sessionTimeout,
@@ -63,7 +64,7 @@ class DriversSupplier(
     @Throws(MalformedURLException::class)
     private fun getChromeDriver(name: String): RemoteWebDriver {
         val chromeOptions = ChromeOptions().apply {
-            setCapability("browserVersion", "113.0")
+            setCapability("browserVersion", selenoidBrowsersConfig.chrome.default)
             setCapability("selenoid:options", opts("$name-chrome"))
             addArguments("--remote-allow-origins=*")
         }
@@ -82,7 +83,7 @@ class DriversSupplier(
     @Throws(MalformedURLException::class)
     private fun getFirefoxDriver(name: String): RemoteWebDriver {
         val firefoxOptions = FirefoxOptions().apply {
-            setCapability("browserVersion", "113.0")
+            setCapability("browserVersion", selenoidBrowsersConfig.firefox.default)
             setCapability("selenoid:options", opts("$name-firefox"))
         }
 

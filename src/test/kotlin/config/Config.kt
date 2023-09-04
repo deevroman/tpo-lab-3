@@ -7,12 +7,19 @@ import kotlin.io.path.bufferedReader
 
 
 class Config {
-    private val path = Path("conf/drivers.json")
     private val gson = Gson()
-    private val typeToken = object: TypeToken<DriversConfig>() {}
+    private val driversConfigPath = Path("conf/drivers.json")
+    private val browsersConfigPath = Path("conf/browsers.json")
 
-    val driversConfig: DriversConfig = path.bufferedReader().use {
-        gson.fromJson(it, typeToken)
+    private val driversConfigTypeToken = object: TypeToken<DriversConfig>() {}
+    private val selenoidBrowsersConfigTypeToken = object: TypeToken<SelenoidBrowsersConfig>() {}
+
+    val driversConfig: DriversConfig = driversConfigPath.bufferedReader().use {
+        gson.fromJson(it, driversConfigTypeToken)
+    }
+
+    val selenoidBrowsersConfig: SelenoidBrowsersConfig = browsersConfigPath.bufferedReader().use {
+        gson.fromJson(it, selenoidBrowsersConfigTypeToken)
     }
 
     val baseUrl: String = "https://yandex.ru/maps"
