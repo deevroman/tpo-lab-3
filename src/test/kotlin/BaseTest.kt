@@ -12,7 +12,7 @@ import java.time.Duration
 open class BaseTest(
     private val config: Config = Config()
 ) {
-    private val driversSupplier = DriversSupplier(config.driversConfig)
+    private val driversSupplier = DriversSupplier(config.driversConfig, config.selenoidBrowsersConfig)
     lateinit var drivers: Map<String, WebDriver>
 
 

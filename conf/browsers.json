@@ -1,19 +1,19 @@
 {
   "chrome": {
-    "default": "113.0",
+    "default": "116.0",
     "versions": {
-      "113.0": {
-        "image": "selenoid/chrome:113.0",
+      "116.0": {
+        "image": "selenoid/chrome:116.0",
         "port": "4444",
         "path": "/"
       }
     }
   },
   "firefox": {
-    "default": "113.0",
+    "default": "116.0",
     "versions": {
-      "113.0": {
-        "image": "selenoid/firefox:113.0",
+      "116.0": {
+        "image": "selenoid/firefox:116.0",
         "port": "4444",
         "path": "/wd/hub"
       }

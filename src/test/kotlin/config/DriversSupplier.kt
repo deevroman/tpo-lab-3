@@ -15,10 +15,14 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 class DriversSupplier(
-    private val config: DriversConfig
+    private val driversConfig: DriversConfig,
+    private val selenoidBrowsersConfig: SelenoidBrowsersConfig
 ): () -> Map<String, WebDriver> {
+
+    private val selenoidUrl = URL("http://localhost:4444/wd/hub")
+
     override fun invoke(): Map<String, WebDriver> =
-        if (config.local) localDrivers(config.browsers) else selenoidDrivers(config.browsers)
+        if (driversConfig.local) localDrivers(driversConfig.browsers) else selenoidDrivers(driversConfig.browsers)
 
     private fun selenoidDrivers(browsers: Set<String>) = browsers.associateWith {
         when (it) {
@@ -47,7 +51,7 @@ class DriversSupplier(
     }
 
     private fun opts(name: String): Map<String, Any?> {
-        return with(config.opts) {
+        return with(driversConfig.opts) {
             mutableMapOf(
                 "name" to name,
                 "sessionTimeout" to sessionTimeout,
@@ -63,12 +67,12 @@ class DriversSupplier(
     @Throws(MalformedURLException::class)
     private fun getChromeDriver(name: String): RemoteWebDriver {
         val chromeOptions = ChromeOptions().apply {
-            setCapability("browserVersion", "113.0")
+            setCapability("browserVersion", selenoidBrowsersConfig.chrome.default)
             setCapability("selenoid:options", opts("$name-chrome"))
             addArguments("--remote-allow-origins=*")
         }
 
-        val chromeDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), chromeOptions)
+        val chromeDriver = RemoteWebDriver(selenoidUrl, chromeOptions)
 
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
         WebDriverWait(chromeDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
@@ -82,11 +86,11 @@ class DriversSupplier(
     @Throws(MalformedURLException::class)
     private fun getFirefoxDriver(name: String): RemoteWebDriver {
         val firefoxOptions = FirefoxOptions().apply {
-            setCapability("browserVersion", "113.0")
+            setCapability("browserVersion", selenoidBrowsersConfig.firefox.default)
             setCapability("selenoid:options", opts("$name-firefox"))
         }
 
-        val firefoxDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), firefoxOptions)
+        val firefoxDriver = RemoteWebDriver(selenoidUrl, firefoxOptions)
 
         firefoxDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
         WebDriverWait(firefoxDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
