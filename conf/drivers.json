@@ -1,0 +1,4 @@
+{
+  "browsers": ["firefox"],
+  "useSelenoid": false
+}
