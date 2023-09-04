@@ -1,3 +1,4 @@
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -25,7 +26,7 @@ class TrafficTest : BaseTest() {
         println(trafficText) // fixes index out of bound
         assertEquals(trafficText[0], "Пробки")
         assertTrue(trafficText[1].toInt() in 1..10)
-        assertEquals(trafficText[2], "балла")
+        assertThat(trafficText[2]).isIn("балла", "баллов")
         // Click on canvas?
         // mainPage.driver.findElement(linkText("ГАТИ Правительства Санкт-Петербурга")).click()
         // assertWindowSwitched(d)
