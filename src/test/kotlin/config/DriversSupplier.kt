@@ -11,10 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import java.net.MalformedURLException
 import java.net.URL
 import java.time.Duration
+import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class DriversSupplier : (DriversConfig) -> Map<String, WebDriver> {
-    override fun invoke(config: DriversConfig): Map<String, WebDriver> =
+class DriversSupplier(
+    private val config: DriversConfig
+): () -> Map<String, WebDriver> {
+    override fun invoke(): Map<String, WebDriver> =
         if (config.useSelenoid) selenoidDrivers(config.browsers) else localDrivers(config.browsers)
 
     private fun selenoidDrivers(browsers: Set<String>) = browsers.associateWith {
@@ -43,16 +46,18 @@ class DriversSupplier : (DriversConfig) -> Map<String, WebDriver> {
         }
     }
 
-    private fun opts(name: String): Map<String, Any> {
-        val opts = HashMap<String, Any>()
-        opts["name"] = name
-        opts["sessionTimeout"] = "15m"
-        opts["env"] = listOf("TZ=UTC")
-        opts["labels"] = "manual" to "true"
-//        opts["enableVideo"] = true
-//        opts["videoName"] = name + "-" + LocalDate.now() + ".mp4"
-        opts["enableVNC"] = true
-        return opts
+    private fun opts(name: String): Map<String, Any?> {
+        return with(config.opts) {
+            mutableMapOf(
+                "name" to name,
+                "sessionTimeout" to sessionTimeout,
+                "env" to env,
+                "labels" to labels,
+                "enableVideo" to enableVideo,
+                "videoName" to (name + "-" + LocalDate.now() + ".mp4").takeIf { enableVideo },
+                "enableVNC" to enableVNC
+            )
+        }
     }
 
     @Throws(MalformedURLException::class)

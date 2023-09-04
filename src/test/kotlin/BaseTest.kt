@@ -12,13 +12,13 @@ import java.time.Duration
 open class BaseTest(
     private val config: Config = Config()
 ) {
-    private val driversSupplier = DriversSupplier()
+    private val driversSupplier = DriversSupplier(config.driversConfig)
     lateinit var drivers: Map<String, WebDriver>
 
 
     @BeforeEach
     fun initDrivers() {
-        drivers = driversSupplier(config.driversConfig)
+        drivers = driversSupplier()
 
         drivers.forEach {
             it.value.navigate().to(config.baseUrl)

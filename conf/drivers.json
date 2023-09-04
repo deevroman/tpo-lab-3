@@ -1,4 +1,13 @@
 {
   "browsers": ["firefox"],
-  "useSelenoid": false
+  "useSelenoid": false,
+  "opts": {
+    "sessionTimeout": "15m",
+    "env": ["TZ=UTC"],
+    "labels": {
+      "manual": "true"
+    },
+    "enableVideo": false,
+    "enableVNC": true
+  }
 }
