@@ -96,7 +96,7 @@ class RoutingTest : BaseTest() {
     }
 
     private fun nearestBarOneDriver(driver: WebDriver) {
-        Actions(driver).moveToElement(driver.findElement(cssSelector(".\\_id_food .catalog-grid-view__text"))).perform()
+        Actions(driver).moveToElement(driver.findElement(cssSelector(".\\_id_food .catalog-grid-view__title"))).perform()
         Actions(driver).moveToElement(driver.findElement(By.tagName("body")), 0, 0).perform()
         driver.findElement(cssSelector(".\\_id_food > .catalog-grid-view__icon")).click()
 
