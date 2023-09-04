@@ -18,7 +18,7 @@ class DriversSupplier(
     private val config: DriversConfig
 ): () -> Map<String, WebDriver> {
     override fun invoke(): Map<String, WebDriver> =
-        if (config.useSelenoid) selenoidDrivers(config.browsers) else localDrivers(config.browsers)
+        if (config.local) localDrivers(config.browsers) else selenoidDrivers(config.browsers)
 
     private fun selenoidDrivers(browsers: Set<String>) = browsers.associateWith {
         when (it) {

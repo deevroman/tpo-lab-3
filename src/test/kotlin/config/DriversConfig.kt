@@ -2,7 +2,7 @@ package config
 
 data class DriversConfig(
     val browsers: Set<String>,
-    val useSelenoid: Boolean,
+    val local: Boolean,
     val opts: DriverOpts
 )
 

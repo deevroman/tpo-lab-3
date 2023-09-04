@@ -1,6 +1,6 @@
 {
   "browsers": ["firefox"],
-  "useSelenoid": false,
+  "local": true,
   "opts": {
     "sessionTimeout": "15m",
     "env": ["TZ=UTC"],
