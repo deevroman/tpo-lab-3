@@ -18,6 +18,9 @@ class DriversSupplier(
     private val driversConfig: DriversConfig,
     private val selenoidBrowsersConfig: SelenoidBrowsersConfig
 ): () -> Map<String, WebDriver> {
+
+    private val selenoidUrl = URL("http://localhost:4444/wd/hub")
+
     override fun invoke(): Map<String, WebDriver> =
         if (driversConfig.local) localDrivers(driversConfig.browsers) else selenoidDrivers(driversConfig.browsers)
 
@@ -69,7 +72,7 @@ class DriversSupplier(
             addArguments("--remote-allow-origins=*")
         }
 
-        val chromeDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), chromeOptions)
+        val chromeDriver = RemoteWebDriver(selenoidUrl, chromeOptions)
 
         chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
         WebDriverWait(chromeDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
@@ -87,7 +90,7 @@ class DriversSupplier(
             setCapability("selenoid:options", opts("$name-firefox"))
         }
 
-        val firefoxDriver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), firefoxOptions)
+        val firefoxDriver = RemoteWebDriver(selenoidUrl, firefoxOptions)
 
         firefoxDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
         WebDriverWait(firefoxDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
