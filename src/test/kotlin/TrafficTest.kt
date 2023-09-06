@@ -13,14 +13,14 @@ class TrafficTest : BaseTest() {
         runTest(::trafficOneDriver, drivers)
     }
 
-    private fun trafficOneDriver(d: WebDriver) {
-        val mainPage = MainPage(d)
+    private fun trafficOneDriver(driver: WebDriver) {
+        val mapControls = MapControls(driver)
 
-        mainPage.clickTrafficButton()
+        mapControls.clickTrafficButton()
         Thread.sleep(Duration.ofSeconds(5).toMillis())
         ExpectedConditions.elementToBeClickable(cssSelector(".traffic-panel-view__dropdown-title"))
-            .wait(mainPage.driver)
-        val trafficText = mainPage.driver.findElement(cssSelector(".traffic-panel-view__dropdown-title"))
+            .wait(driver)
+        val trafficText = driver.findElement(cssSelector(".traffic-panel-view__dropdown-title"))
             .text.split(" ")
 
         println(trafficText) // fixes index out of bound

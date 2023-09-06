@@ -16,19 +16,19 @@ class RoutingTest : BaseTest() {
         runTest(::simpleRouteOneDriver, drivers)
     }
 
-    private fun simpleRouteOneDriver(d: WebDriver) {
-        val mainPage = MainPage(d)
+    private fun simpleRouteOneDriver(driver: WebDriver) {
+        val mapControls = MapControls(driver)
         Thread.sleep(Duration.ofSeconds(1).toMillis())
-        mainPage.inputQuery("кронверский 49")
+        mapControls.inputQuery("кронверский 49")
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        elementToBeClickable(cssSelector(".\\_view_primary > .button__icon > .inline-image")).wait(d)
-        mainPage.driver.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
+        elementToBeClickable(cssSelector(".\\_view_primary > .button__icon > .inline-image")).wait(driver)
+        driver.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        elementToBeClickable(xpath("//div[2]/div/div/span/span/input")).wait(d)
-        mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
-        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
+        elementToBeClickable(xpath("//div[2]/div/div/span/span/input")).wait(driver)
+        driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
+        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)
 
         setOf(
             "._mode_masstransit",
@@ -37,11 +37,11 @@ class RoutingTest : BaseTest() {
             "._mode_scooter",
             "._mode_taxi"
         ).forEach {
-            elementToBeClickable(cssSelector(it)).wait(d)
-            mainPage.driver.findElement(cssSelector(it)).click()
+            elementToBeClickable(cssSelector(it)).wait(driver)
+            driver.findElement(cssSelector(it)).click()
         }
 
-        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(d)
+        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)
     }
 
     @Test
@@ -49,15 +49,15 @@ class RoutingTest : BaseTest() {
         runTest(::printOneDriver, drivers)
     }
 
-    private fun printOneDriver(d: WebDriver) {
-        val mainPage = MainPage(d)
+    private fun printOneDriver(driver: WebDriver) {
+        val mapControls = MapControls(driver)
 
-        mainPage.clickExtButton()
-        mainPage.driver.findElement(cssSelector(".list-item-view:nth-child(1) > .list-item-view__content")).click()
+        mapControls.clickExtButton()
+        driver.findElement(cssSelector(".list-item-view:nth-child(1) > .list-item-view__content")).click()
 
-        assertWindowSwitched(d)
+        assertWindowSwitched(driver)
 
-        mainPage.driver.findElement(
+        driver.findElement(
             cssSelector(
                 ".print-controls-view__page-controls:nth-child(1) > .print-controls-view__control .button__text"
             )
@@ -69,19 +69,18 @@ class RoutingTest : BaseTest() {
         runTest(::taxiOneDriver, drivers)
     }
 
-    private fun taxiOneDriver(d: WebDriver) {
-        val mainPage = MainPage(d)
+    private fun taxiOneDriver(driver: WebDriver) {
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        waitClickableAndClick(mainPage.driver, cssSelector(".small-search-form-view__icon path:nth-child(2)"))
-        waitClickableAndClick(mainPage.driver, xpath("//div[2]/div/div/span/span/input"))
+        waitClickableAndClick(driver, cssSelector(".small-search-form-view__icon path:nth-child(2)"))
+        waitClickableAndClick(driver, xpath("//div[2]/div/div/span/span/input"))
 
-        mainPage.driver.findElement(xpath("//div[2]/div/div/span/span/input"))
+        driver.findElement(xpath("//div[2]/div/div/span/span/input"))
             .sendKeys("кронверский 49", Keys.ENTER)
-        mainPage.driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input"))
+        driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input"))
             .sendKeys("думская 4", Keys.ENTER)
 
-        waitClickableAndClick(mainPage.driver, cssSelector("._mode_taxi"))
-        waitClickableAndClick(mainPage.driver, xpath("//span[contains(.,'Выбрать тариф')]"))
+        waitClickableAndClick(driver, cssSelector("._mode_taxi"))
+        waitClickableAndClick(driver, xpath("//span[contains(.,'Выбрать тариф')]"))
     }
 
     @Test
