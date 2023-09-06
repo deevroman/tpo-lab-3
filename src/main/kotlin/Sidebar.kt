@@ -1,7 +1,8 @@
-import base.Page
+
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
+import page.Page
 import route.RoutePanel
 
 open class Sidebar(private val driver: WebDriver): Page(driver) {
