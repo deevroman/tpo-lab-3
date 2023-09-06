@@ -10,14 +10,13 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
-import wait
 import java.time.Duration
 
 open class BaseTest(
     private val config: Config = Config()
 ) {
     private val driversSupplier = DriversSupplier(config.driversConfig, config.selenoidBrowsersConfig)
-    lateinit var drivers: Map<String, WebDriver>
+    private lateinit var drivers: Map<String, WebDriver>
 
 
     @BeforeEach

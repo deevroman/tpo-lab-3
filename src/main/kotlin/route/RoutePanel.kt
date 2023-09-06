@@ -1,11 +1,11 @@
 package route
 
-import Page
+import base.Page
+import base.wait
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
-import wait
 
 class RoutePanel(private val driver: WebDriver): Page(driver) {
     @FindBy(xpath = "//div[2]/div/div/span/span/input")

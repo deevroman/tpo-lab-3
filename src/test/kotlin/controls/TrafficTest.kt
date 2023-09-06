@@ -1,5 +1,6 @@
-
+package controls
 import base.BaseTest
+import base.wait
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

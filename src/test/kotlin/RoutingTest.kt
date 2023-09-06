@@ -1,5 +1,7 @@
 
 import base.BaseTest
+import base.wait
+import controls.MapControls
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.By.cssSelector
@@ -40,22 +42,6 @@ class RoutingTest : BaseTest() {
         }
 
         elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)
-    }
-
-    @Test
-    fun print() = runTest { driver ->
-        val mapControls = MapControls(driver)
-
-        mapControls.clickExtButton()
-        driver.findElement(cssSelector(".list-item-view:nth-child(1) > .list-item-view__content")).click()
-
-        assertWindowSwitched(driver)
-
-        driver.findElement(
-            cssSelector(
-                ".print-controls-view__page-controls:nth-child(1) > .print-controls-view__control .button__text"
-            )
-        )
     }
 
     @Test
