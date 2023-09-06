@@ -1,3 +1,4 @@
+
 import base.BaseTest
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
@@ -60,16 +61,16 @@ class RoutingTest : BaseTest() {
     @Test
     fun taxi() = runTest { driver ->
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        waitClickableAndClick(driver, cssSelector(".small-search-form-view__icon path:nth-child(2)"))
-        waitClickableAndClick(driver, xpath("//div[2]/div/div/span/span/input"))
+        val sidebar = Sidebar(driver)
+        val routePanel = sidebar.openRoutePanel()
 
-        driver.findElement(xpath("//div[2]/div/div/span/span/input"))
-            .sendKeys("кронверский 49", Keys.ENTER)
-        driver.findElement(xpath("//div[2]/div/div/div[2]/div/div/span/span/input"))
-            .sendKeys("думская 4", Keys.ENTER)
+        with(routePanel) {
+            routeFromInput.input("кронверский 49")
+            routeToInput.input("думская 4")
 
-        waitClickableAndClick(driver, cssSelector("._mode_taxi"))
-        waitClickableAndClick(driver, xpath("//span[contains(.,'Выбрать тариф')]"))
+            val taxiRoute = openTaxiRoute()
+            taxiRoute.peekTariffButton!!.click()
+        }
     }
 
     @Test

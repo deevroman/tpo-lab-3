@@ -5,10 +5,12 @@ import config.DriversSupplier
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Keys.ENTER
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import wait
 import java.time.Duration
 
 open class BaseTest(
@@ -32,13 +34,6 @@ open class BaseTest(
         }
     }
 
-    fun <T> ExpectedCondition<T>.wait(driver: WebDriver) {
-        WebDriverWait(
-            driver,
-            Duration.ofSeconds(10)
-        ).until(this)
-    }
-
     fun assertWindowSwitched(d: WebDriver) {
         // Wait for the new window or tab
         ExpectedConditions.numberOfWindowsToBe(2).wait(d)
@@ -59,4 +54,6 @@ open class BaseTest(
     }
 
     protected fun runTest(testFun: (WebDriver) -> Unit) = runTest(drivers, testFun)
+
+    protected fun WebElement?.input(text: String) = this!!.sendKeys(text, ENTER)
 }
