@@ -11,6 +11,7 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     private val closeButton: WebElement? = null
 
     fun openRoutePanel(): RoutePanel {
+        // TODO: #5
         routeButton!!.click()
         return RoutePanel(driver)
     }

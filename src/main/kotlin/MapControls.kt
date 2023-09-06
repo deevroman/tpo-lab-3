@@ -13,10 +13,12 @@ class MapControls(driver: WebDriver): Page(driver) {
     private val extButton: WebElement? = null
 
     fun clickTrafficButton() {
+        // TODO: #5
         trafficButton!!.click()
     }
 
     fun clickExtButton() {
+        // TODO: #5
         extButton!!.click()
     }
 }

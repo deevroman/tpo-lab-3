@@ -69,7 +69,10 @@ class RoutingTest : BaseTest() {
             routeToInput.input("думская 4")
 
             val taxiRoute = openTaxiRoute()
+            // TODO: #5
             taxiRoute.peekTariffButton!!.click()
+
+            assertWindowSwitched(driver)
         }
     }
 
