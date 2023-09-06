@@ -1,12 +1,10 @@
 
 import base.BaseTest
 import base.wait
-import controls.MapControls
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.By.xpath
-import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
@@ -17,28 +15,23 @@ class RoutingTest : BaseTest() {
 
     @Test
     fun simpleRoute() = runTest { driver ->
-        val mapControls = MapControls(driver)
+        val sidebar = Sidebar(driver)
         Thread.sleep(Duration.ofSeconds(1).toMillis())
-        mapControls.inputQuery("кронверский 49")
+        sidebar.inputQuery("кронверский 49")
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        elementToBeClickable(cssSelector(".\\_view_primary > .button__icon > .inline-image")).wait(driver)
-        driver.findElement(cssSelector(".\\_view_primary > .button__icon > .inline-image")).click()
+
+        val routePanel = sidebar.openRouteToPlace()
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        elementToBeClickable(xpath("//div[2]/div/div/span/span/input")).wait(driver)
-        driver.findElement(xpath("//div[2]/div/div/span/span/input")).sendKeys("ломоносова 9", Keys.ENTER)
-        elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)
 
-        setOf(
-            "._mode_masstransit",
-            "._mode_bicycle",
-            "._mode_auto",
-            "._mode_scooter",
-            "._mode_taxi"
-        ).forEach {
-            elementToBeClickable(cssSelector(it)).wait(driver)
-            driver.findElement(cssSelector(it)).click()
+        with(routePanel) {
+            routeFromInput.input("ломоносова 9")
+            elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)
+            getAllModes().forEach {
+                elementToBeClickable(it).wait(driver)
+                it!!.click()
+            }
         }
 
         elementToBeClickable(cssSelector(".route-snippet-view:nth-child(1)")).wait(driver)

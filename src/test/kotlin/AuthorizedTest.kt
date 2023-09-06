@@ -1,7 +1,6 @@
 
 import base.BaseTest
 import base.wait
-import controls.MapControls
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
@@ -11,9 +10,9 @@ import java.time.Duration
 class AuthorizedTest : BaseTest() {
     @Test
     fun `5 star`() = runTest { driver ->
-        val mapControls = MapControls(driver)
+        val sidebar = Sidebar(driver)
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        mapControls.inputQuery("университет итмо")
+        sidebar.inputQuery("университет итмо")
 
         elementToBeClickable(
             cssSelector(".search-snippet-view:nth-child(1) .search-business-snippet-view__head")
