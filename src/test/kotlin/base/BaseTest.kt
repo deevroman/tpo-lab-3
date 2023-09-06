@@ -1,3 +1,5 @@
+package base
+
 import config.Config
 import config.DriversSupplier
 import org.junit.jupiter.api.AfterEach

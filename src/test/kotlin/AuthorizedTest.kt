@@ -1,4 +1,5 @@
 
+import base.BaseTest
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable

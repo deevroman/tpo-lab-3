@@ -1,3 +1,5 @@
+package base
+
 import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebDriver
 import java.util.concurrent.ExecutionException
