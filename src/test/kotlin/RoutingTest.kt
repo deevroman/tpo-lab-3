@@ -12,11 +12,7 @@ import java.time.Duration
 class RoutingTest : BaseTest() {
 
     @Test
-    fun simpleRoute() {
-        runTest(::simpleRouteOneDriver, drivers)
-    }
-
-    private fun simpleRouteOneDriver(driver: WebDriver) {
+    fun simpleRoute() = runTest { driver ->
         val mapControls = MapControls(driver)
         Thread.sleep(Duration.ofSeconds(1).toMillis())
         mapControls.inputQuery("кронверский 49")
@@ -45,11 +41,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun print() {
-        runTest(::printOneDriver, drivers)
-    }
-
-    private fun printOneDriver(driver: WebDriver) {
+    fun print() = runTest { driver ->
         val mapControls = MapControls(driver)
 
         mapControls.clickExtButton()
@@ -65,11 +57,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun taxi() {
-        runTest(::taxiOneDriver, drivers)
-    }
-
-    private fun taxiOneDriver(driver: WebDriver) {
+    fun taxi() = runTest { driver ->
         Thread.sleep(Duration.ofSeconds(2).toMillis())
         waitClickableAndClick(driver, cssSelector(".small-search-form-view__icon path:nth-child(2)"))
         waitClickableAndClick(driver, xpath("//div[2]/div/div/span/span/input"))
@@ -84,17 +72,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun nearestBar() {
-        runTest(::nearestBarOneDriver, drivers)
-    }
-
-    private fun waitClickableAndClick(d: WebDriver, by: By) {
-        Thread.sleep(Duration.ofSeconds(7).toMillis())
-        elementToBeClickable(by).wait(d)
-        d.findElement(by).click()
-    }
-
-    private fun nearestBarOneDriver(driver: WebDriver) {
+    fun nearestBar() = runTest { driver ->
         Actions(driver).moveToElement(driver.findElement(cssSelector(".\\_id_food .catalog-grid-view__title"))).perform()
         Actions(driver).moveToElement(driver.findElement(By.tagName("body")), 0, 0).perform()
         driver.findElement(cssSelector(".\\_id_food > .catalog-grid-view__icon")).click()
@@ -137,5 +115,11 @@ class RoutingTest : BaseTest() {
         waitClickableAndClick(driver, cssSelector(".\\_name_chain"))
 //        elementToBeClickable(cssSelector(".\\_name_features")).wait(driver)
 //        driver.findElement(cssSelector(".\\_name_features")).click()
+    }
+
+    private fun waitClickableAndClick(d: WebDriver, by: By) {
+        Thread.sleep(Duration.ofSeconds(7).toMillis())
+        elementToBeClickable(by).wait(d)
+        d.findElement(by).click()
     }
 }

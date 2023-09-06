@@ -1,19 +1,15 @@
+
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.cssSelector
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 import java.time.Duration
 
 class TrafficTest : BaseTest() {
     @Test
-    fun traffic() {
-        runTest(::trafficOneDriver, drivers)
-    }
-
-    private fun trafficOneDriver(driver: WebDriver) {
+    fun traffic() = runTest { driver ->
         val mapControls = MapControls(driver)
 
         mapControls.clickTrafficButton()

@@ -55,4 +55,6 @@ open class BaseTest(
     fun closeDriver() {
         drivers.forEach { it.value.quit() }
     }
+
+    protected fun runTest(testFun: (WebDriver) -> Unit) = runTest(drivers, testFun)
 }
