@@ -17,11 +17,11 @@ class RoutingTest : BaseTest() {
     fun simpleRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
         Thread.sleep(Duration.ofSeconds(1).toMillis())
-        sidebar.inputQuery("кронверский 49")
+        val business = sidebar.inputQuery("кронверский 49")!!
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
 
-        val routePanel = sidebar.openRouteToPlace()
+        val routePanel = business.openRouteToPlace()
 
         Thread.sleep(Duration.ofSeconds(2).toMillis())
 
