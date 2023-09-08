@@ -40,6 +40,5 @@ class RoutePanel(private val driver: WebDriver): Page(driver) {
         bicycleModeButton,
         autoModeButton,
         scooterModeButton,
-        taxiModeButton
     )
 }

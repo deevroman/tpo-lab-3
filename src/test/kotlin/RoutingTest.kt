@@ -1,8 +1,9 @@
 
 import base.BaseTest
-import base.wait
+import base.waitClickableAndClick
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
+import org.openqa.selenium.By.cssSelector
 import java.time.Duration
 
 
@@ -22,9 +23,22 @@ class RoutingTest : BaseTest() {
 
         with(routePanel) {
             routeFromInput.input("ломоносова 9")
-            getAllModes().forEach {
-                elementToBeClickable(it).wait(driver)
-                it!!.click()
+            var lastModeTime = 0
+            getAllModes().map {
+                waitClickableAndClick(driver, it)
+                val currModeTime = driver.findElement(
+                    cssSelector(".route-snippet-view._active div div")
+                )
+                    // auto-route-snippet-view__route-title-primary,
+                    // bicycle-route-snippet-view__route-title-primary
+                    .text
+                    .split(" ")
+                    .first()
+                    .toInt()
+
+                assertThat(currModeTime).isNotEqualTo(lastModeTime)
+
+                lastModeTime = currModeTime
             }
         }
     }
