@@ -10,7 +10,7 @@ class AuthorizedTest : BaseTest() {
         val sidebar = Sidebar(driver)
         Thread.sleep(Duration.ofSeconds(2).toMillis())
         sidebar.inputQuery("университет итмо")
-        val businessView = sidebar.openBusinessFromQueryResult(1)
+        val businessView = sidebar.openBusinessFromResult()
 
         Thread.sleep(Duration.ofSeconds(1).toMillis())
         val ratingView = businessView.openRatingView()

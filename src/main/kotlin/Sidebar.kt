@@ -1,4 +1,5 @@
 
+import base.waitClickableAndClick
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
@@ -24,6 +25,15 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     @FindBy(css = "._type_close")
     private val closeButton: WebElement? = null
 
+    @FindBy(css = ".close-button path")
+    private val closeAlertButton: WebElement? = null
+
+    @FindBy(css = "._id_food > .catalog-grid-view__icon")
+    private val foodIcon: WebElement? = null
+
+    @FindBy(css = ".search-list-view__list")
+    val searchResultList: WebElement? = null
+
     fun inputQuery(login: String?): Business? {
         // TODO: #5
         searchInput!!.sendKeys(login, Keys.ENTER)
@@ -34,11 +44,8 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
         else null
     }
 
-    fun openBusinessFromQueryResult(i: Int = 1): Business {
-        val businessRow = driver.findElement(
-            cssSelector(".search-snippet-view:nth-child($i) .search-business-snippet-view__head")
-        )
-        businessRow.click()
+    fun openBusinessFromResult(i: Int = 1): Business {
+        waitClickableAndClick(driver, cssSelector(".search-snippet-view:nth-child($i)"))
         return Business(driver)
     }
 
@@ -47,4 +54,10 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
         routeButton!!.click()
         return RoutePanel(driver)
     }
+
+    fun showFoodPlaces() = waitClickableAndClick(driver, foodIcon)
+
+    fun showBars() = waitClickableAndClick(driver, cssSelector("[aria-label=\"Бары\"]"))
+
+    fun closeAlert() = closeAlertButton!!.click()
 }
