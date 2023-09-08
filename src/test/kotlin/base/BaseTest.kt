@@ -1,10 +1,13 @@
+package base
+
 import config.Config
 import config.DriversSupplier
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.Keys.ENTER
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.ExpectedCondition
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
@@ -13,7 +16,7 @@ open class BaseTest(
     private val config: Config = Config()
 ) {
     private val driversSupplier = DriversSupplier(config.driversConfig, config.selenoidBrowsersConfig)
-    lateinit var drivers: Map<String, WebDriver>
+    private lateinit var drivers: Map<String, WebDriver>
 
 
     @BeforeEach
@@ -28,13 +31,6 @@ open class BaseTest(
                 ) == "complete")
             }
         }
-    }
-
-    fun <T> ExpectedCondition<T>.wait(driver: WebDriver) {
-        WebDriverWait(
-            driver,
-            Duration.ofSeconds(10)
-        ).until(this)
     }
 
     fun assertWindowSwitched(d: WebDriver) {
@@ -55,4 +51,8 @@ open class BaseTest(
     fun closeDriver() {
         drivers.forEach { it.value.quit() }
     }
+
+    protected fun runTest(testFun: (WebDriver) -> Unit) = runTest(drivers, testFun)
+
+    protected fun WebElement?.input(text: String) = this!!.sendKeys(text, ENTER)
 }
