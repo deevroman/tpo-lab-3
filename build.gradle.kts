@@ -25,8 +25,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-//    finalizedBy(tasks.jacocoTestReport)
-//    finalizedBy(tasks.jacocoTestCoverageVerification)
+    finalizedBy(tasks.jacocoTestReport)
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.jacocoTestReport {
@@ -44,6 +44,23 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
+                minimum = 0.9.toBigDecimal()
+                counter = "CLASS"
+                value = "MISSEDCOUNT"
+            }
+            limit {
+                counter = "METHOD"
+                value = "MISSEDCOUNT"
+                maximum = 0.9.toBigDecimal()
+            }
+            limit {
+                counter = "LINE"
+                value = "MISSEDCOUNT"
+                maximum = 0.9.toBigDecimal()
+            }
+            limit {
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
                 minimum = 0.9.toBigDecimal()
             }
         }
@@ -71,12 +88,12 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-    jvmTarget = "14"
+    jvmTarget = "17"
 }
 tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
-    jvmTarget = "14"
+    jvmTarget = "17"
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }

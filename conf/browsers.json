@@ -10,10 +10,10 @@
     }
   },
   "firefox": {
-    "default": "116.0",
+    "default": "117.0",
     "versions": {
-      "116.0": {
-        "image": "selenoid/firefox:116.0",
+      "117.0": {
+        "image": "selenoid/firefox:117.0",
         "port": "4444",
         "path": "/wd/hub"
       }
