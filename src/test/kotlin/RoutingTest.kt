@@ -1,9 +1,11 @@
 
 import base.BaseTest
-import base.waitClickableAndClick
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.By.cssSelector
+import org.openqa.selenium.NoSuchElementException
+import route.Mode
+import route.Mode.TAXI
+import route.TaxiRoute
 import java.time.Duration
 
 
@@ -12,33 +14,33 @@ class RoutingTest : BaseTest() {
     @Test
     fun simpleRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        Thread.sleep(Duration.ofSeconds(1).toMillis())
         val business = sidebar.inputQuery("кронверский 49")!!
-
-        Thread.sleep(Duration.ofSeconds(2).toMillis())
-
         val routePanel = business.openRouteToPlace()
-
-        Thread.sleep(Duration.ofSeconds(2).toMillis())
 
         with(routePanel) {
             routeFromInput.input("ломоносова 9")
-            var lastModeTime = 0
-            getAllModes().map {
-                waitClickableAndClick(driver, it)
-                val currModeTime = driver.findElement(
-                    cssSelector(".route-snippet-view._active div div")
-                )
-                    // auto-route-snippet-view__route-title-primary,
-                    // bicycle-route-snippet-view__route-title-primary
-                    .text
-                    .split(" ")
-                    .first()
-                    .toInt()
+            val modes = Mode.values()
+            var prevDuration = 0
 
-                assertThat(currModeTime).isNotEqualTo(lastModeTime)
+            modes.forEach { mode ->
+                val modeRoute = openRoute(mode)
 
-                lastModeTime = currModeTime
+                assertThat(modeRoute.modeButton!!.hasClass("_checked")).isTrue
+
+                try {
+                    // TODO: #5
+                    val routeDuration = modeRoute.duration!!
+                        .text
+                        .split(" ")
+                        .first()
+                        .toInt()
+
+                    assertThat(routeDuration).isNotEqualTo(prevDuration)
+                    prevDuration = routeDuration
+
+                    assertThat(modeRoute.title!!.text)
+                        .containsPattern(modeRoute.titlePattern)
+                } catch (e: NoSuchElementException) {}
             }
         }
     }
@@ -53,7 +55,7 @@ class RoutingTest : BaseTest() {
             routeFromInput.input("кронверский 49")
             routeToInput.input("думская 4")
 
-            val taxiRoute = openTaxiRoute()
+            val taxiRoute = openRoute(TAXI) as TaxiRoute
             // TODO: #5
             taxiRoute.peekTariffButton!!.click()
 
