@@ -23,7 +23,7 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     private val routeButton: WebElement? = null
 
     @FindBy(css = "._type_close")
-    private val closeButton: WebElement? = null
+    val closeButton: WebElement? = null
 
     @FindBy(css = ".close-button path")
     private val closeAlertButton: WebElement? = null

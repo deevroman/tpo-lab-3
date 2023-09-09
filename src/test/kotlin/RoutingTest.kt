@@ -1,5 +1,6 @@
 
 import base.BaseTest
+import base.waitClickableAndClick
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.NoSuchElementException
@@ -51,7 +52,10 @@ class RoutingTest : BaseTest() {
 
         with(routePanel) {
             routeFromInput.input("кронверский 49")
+            assertThat(routeFromInput!!.text).isEqualTo("Кронверкский проспект, 49")
+
             routeToInput.input("думская 4")
+            assertThat(routeToInput!!.text).isEqualTo("Думская улица, 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price!!.text.drop(1).dropLast(2).toInt()
@@ -85,5 +89,18 @@ class RoutingTest : BaseTest() {
 
         bar.openRatingView()
         bar.openFeatures()
+    }
+
+    @Test
+    fun closeRoute() = runTest { driver ->
+        val sidebar = Sidebar(driver)
+        val business = sidebar.inputQuery("кронверкский 49")!!
+        val routePanel = business.openRouteToPlace()
+
+        assertThat(routePanel.isDisplayed()).isTrue
+
+        waitClickableAndClick(driver, sidebar.closeButton)
+
+        assertThat(routePanel.isDisplayed()).isFalse
     }
 }
