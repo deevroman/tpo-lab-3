@@ -23,5 +23,5 @@ class TaxiRoute(driver: WebDriver): Page(driver), Route {
     override val duration: WebElement? = null
 
     @FindBy(css = ".taxi-route-snippet-view__price")
-    private val price: WebElement? = null
+    val price: WebElement? = null
 }

@@ -6,7 +6,6 @@ import org.openqa.selenium.NoSuchElementException
 import route.Mode
 import route.Mode.TAXI
 import route.TaxiRoute
-import java.time.Duration
 
 
 class RoutingTest : BaseTest() {
@@ -47,7 +46,6 @@ class RoutingTest : BaseTest() {
 
     @Test
     fun taxi() = runTest { driver ->
-        Thread.sleep(Duration.ofSeconds(2).toMillis())
         val sidebar = Sidebar(driver)
         val routePanel = sidebar.openRoutePanel()
 
@@ -56,6 +54,10 @@ class RoutingTest : BaseTest() {
             routeToInput.input("думская 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
+            val price = taxiRoute.price!!.text.drop(1).dropLast(2).toInt()
+            assertThat(price).isGreaterThan(100)
+            assertThat(price).isLessThan(1000)
+
             // TODO: #5
             taxiRoute.peekTariffButton!!.click()
 
