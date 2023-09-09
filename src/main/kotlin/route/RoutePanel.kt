@@ -14,32 +14,21 @@ class RoutePanel(private val driver: WebDriver): Page(driver) {
     @FindBy(xpath = "//div[2]/div/div/div[2]/div/div/span/span/input")
     val routeToInput: WebElement? = null
 
-    @FindBy(css = "._mode_masstransit")
-    private val massTransitModeButton: WebElement? = null
-
-    @FindBy(css = "._mode_bicycle")
-    private val bicycleModeButton: WebElement? = null
-
-    @FindBy(css = "._mode_auto")
-    private val autoModeButton: WebElement? = null
-
-    @FindBy(css = "._mode_scooter")
-    private val scooterModeButton: WebElement? = null
-
-    @FindBy(css = "._mode_taxi")
-    private val taxiModeButton: WebElement? = null
-
-    fun openTaxiRoute(): TaxiRoute {
-        elementToBeClickable(taxiModeButton).wait(driver)
-        taxiModeButton!!.click()
-        return TaxiRoute(driver)
-    }
-
-    fun getAllModes() = listOf(
-        massTransitModeButton,
-        bicycleModeButton,
-        autoModeButton,
-        scooterModeButton,
-        taxiModeButton
+    private val routes = listOf<Route>(
+        AutoRoute(driver),
+        BicycleRoute(driver),
+        MassTransitRoute(driver),
+        PedestrianRoute(driver),
+        ScooterRoute(driver),
+        TaxiRoute(driver)
     )
+
+    private val routesToViews = routes.associateBy { it.mode }
+
+    fun openRoute(mode: Mode): Route {
+        val route = routesToViews[mode] ?: throw IllegalArgumentException("Mode: $mode")
+        elementToBeClickable(route.modeButton).wait(driver)
+        route.modeButton!!.click()
+        return route
+    }
 }
