@@ -31,10 +31,13 @@ open class Business(private val driver: WebDriver): Page(driver) {
 
     fun openPosts() = waitClickableAndClick(driver, cssSelector(".\\_name_posts"))
 
-    fun openPost(i: Int) = waitClickableAndClick(
-        driver,
-        cssSelector(".business-posts-list-post-view:nth-child($i) > .business-posts-list-post-view__read-more")
-    )
+    fun openPost(i: Int): Post {
+        waitClickableAndClick(
+            driver,
+            cssSelector(".business-posts-list-post-view:nth-child($i) > .business-posts-list-post-view__read-more")
+        )
+        return Post(driver)
+    }
 
 
     fun openGallery(): Gallery {
@@ -42,7 +45,10 @@ open class Business(private val driver: WebDriver): Page(driver) {
         return Gallery(driver)
     }
 
-    fun openFeatures() = waitClickableAndClick(driver, cssSelector("._name_features"))
+    fun openFeatures(): Features {
+        waitClickableAndClick(driver, cssSelector("._name_features"))
+        return Features(driver)
+    }
 
     fun asBar() = Bar(driver)
 }

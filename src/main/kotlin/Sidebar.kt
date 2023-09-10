@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf
 import page.Page
 import place.Business
 import route.RoutePanel
+import route.Tooltip
 import java.time.Duration
 
 open class Sidebar(private val driver: WebDriver): Page(driver) {
@@ -24,9 +25,6 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
 
     @FindBy(css = "._type_close")
     lateinit var closeButton: WebElement
-
-    @FindBy(css = ".close-button path")
-    private lateinit var closeAlertButton: WebElement
 
     @FindBy(css = "._id_food > .catalog-grid-view__icon")
     private lateinit var foodIcon: WebElement
@@ -53,9 +51,10 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
         return RoutePanel(driver)
     }
 
-    fun showFoodPlaces() = waitClickableAndClick(driver, foodIcon)
+    fun showFoodPlaces(): Tooltip {
+        waitClickableAndClick(driver, foodIcon)
+        return Tooltip(driver)
+    }
 
     fun showBars() = waitClickableAndClick(driver, cssSelector("[aria-label=\"Бары\"]"))
-
-    fun closeAlert() = closeAlertButton.click()
 }

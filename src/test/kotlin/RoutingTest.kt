@@ -70,22 +70,58 @@ class RoutingTest : BaseTest() {
     @Test
     fun nearestBar() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        sidebar.showFoodPlaces()
-        sidebar.closeAlert()
+
+        val tooltip = sidebar.showFoodPlaces()
+        assertThat(tooltip.title.text)
+            .isEqualTo("Взгляните!")
+        assertThat(tooltip.text.text)
+            .isEqualTo("По вашему запросу мы нашли несколько подборок отличных мест," +
+                    " которые рекомендуют редакция и пользователи Яндекса")
+
+        tooltip.closeTooltip()
+
         sidebar.showBars()
 
         // TODO: #5 wait until loader
         val bar = sidebar.openBusinessFromResult().asBar()
+        // TODO: #8 assert bar is displayed
         bar.openMenu()
+        // TODO: #8 assert menu
         bar.openPosts()
-        bar.openPost(1)
+
+        val post = bar.openPost(1)
+        assertThat(post.title.text.lowercase())
+            .isEqualTo("1 марта 2023")
+        assertThat(post.text.text)
+            .isEqualTo("31 Chemical network дарит скидку 20% на коктейльное меню" +
+                    " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
+                    " а наши ученые поздравят сладким сюрпризом!\n\n" +
+                    "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
+                    "*Скидки и акции не суммируются. Подробнее по телефону.")
 
         val gallery = bar.openGallery()
         gallery.openVideos()
         gallery.openPhotosInside()
 
-        bar.openRatingView()
-        bar.openFeatures()
+        val rating = bar.openRatingView()
+        assertThat(rating.ratingValue.text)
+            .isEqualTo("Рейтинг \n5,0")
+        assertThat(rating.ratingSummary.text)
+            .matches("\\d{4} оцен(ок|ка|ки)")
+
+        val features = bar.openFeatures()
+        assertThat(features.getFeatureTitles(3))
+            .isEqualTo(listOf(
+                "Цена бокала пива:",
+                "Цены:",
+                "Средний счёт:",
+            ))
+        assertThat(features.getFeatureValues(3))
+            .isEqualTo(listOf(
+                "370 ₽",
+                "выше среднего",
+                "1000–1500 ₽"
+            ))
     }
 
     @Test
@@ -100,4 +136,6 @@ class RoutingTest : BaseTest() {
 
         assertThat(routePanel.isDisplayed()).isFalse
     }
+
+    // TODO: #8 test catalog-grid-view
 }
