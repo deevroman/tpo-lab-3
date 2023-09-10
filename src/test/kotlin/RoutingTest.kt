@@ -14,7 +14,7 @@ class RoutingTest : BaseTest() {
     @Test
     fun simpleRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        val business = sidebar.inputQuery("кронверский 49")!!
+        val business = sidebar.openBusinessByQuery("кронверский 49")
         val routePanel = business.openRouteToPlace()
 
         with(routePanel) {
@@ -127,7 +127,7 @@ class RoutingTest : BaseTest() {
     @Test
     fun closeRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        val business = sidebar.inputQuery("кронверкский 49")!!
+        val business = sidebar.openBusinessByQuery("кронверкский 49")
         val routePanel = business.openRouteToPlace()
 
         assertThat(routePanel.isDisplayed()).isTrue
