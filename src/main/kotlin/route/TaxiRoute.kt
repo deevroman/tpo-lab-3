@@ -20,8 +20,8 @@ class TaxiRoute(driver: WebDriver): Page(driver), Route {
     override val titlePattern: String = "\\~\\d{2,} ₽\\d{1,2} мин"
 
     @FindBy(css = ".taxi-route-snippet-view__duration")
-    override lateinit var  duration: WebElement
+    override lateinit var duration: WebElement
 
     @FindBy(css = ".taxi-route-snippet-view__price")
-    val price: WebElement? = null
+    lateinit var price: WebElement
 }

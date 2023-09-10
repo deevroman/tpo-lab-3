@@ -53,7 +53,7 @@ class RoutingTest : BaseTest() {
             routeToInput.input("думская 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
-            val price = taxiRoute.price?.text?.drop(1)?.dropLast(2)?.toInt()
+            val price = taxiRoute.price.text?.drop(1)?.dropLast(2)?.toInt()
             assertThat(price).isGreaterThan(100)
             assertThat(price).isLessThan(1000)
 
