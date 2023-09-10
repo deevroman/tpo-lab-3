@@ -10,12 +10,12 @@ class BicycleRoute(driver: WebDriver): Page(driver), Route {
     override val mode: Mode = BICYCLE
 
     @FindBy(css = "._mode_bicycle")
-    override val modeButton: WebElement? = null
+    override lateinit var modeButton: WebElement
 
     @FindBy(css = ".bicycle-route-snippet-view__route-title")
-    override val title: WebElement? = null
+    override lateinit var title: WebElement
     override val titlePattern: String = "\\d+ мин\\d+\\,\\d+ км"
 
     @FindBy(css = ".bicycle-route-snippet-view__route-title-primary")
-    override val duration: WebElement? = null
+    override lateinit var duration: WebElement
 }

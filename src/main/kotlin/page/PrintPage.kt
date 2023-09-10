@@ -6,5 +6,5 @@ import org.openqa.selenium.support.FindBy
 
 class PrintPage(driver: WebDriver): Page(driver) {
     @FindBy(css = ".print-controls-view__control .button__text")
-    val printButton: WebElement? = null
+    lateinit var printButton: WebElement
 }

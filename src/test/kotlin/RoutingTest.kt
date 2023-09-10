@@ -24,11 +24,10 @@ class RoutingTest : BaseTest() {
             modes.forEach { mode ->
                 val modeRoute = openRoute(mode)
 
-                assertThat(modeRoute.modeButton!!.hasClass("_checked")).isTrue
+                assertThat(modeRoute.modeButton.hasClass("_checked")).isTrue
 
                 try {
-                    // TODO: #5
-                    val routeDuration = modeRoute.duration!!
+                    val routeDuration = modeRoute.duration
                         .text
                         .split(" ")
                         .first()
@@ -37,9 +36,9 @@ class RoutingTest : BaseTest() {
                     assertThat(routeDuration).isNotEqualTo(prevDuration)
                     prevDuration = routeDuration
 
-                    assertThat(modeRoute.title!!.text)
+                    assertThat(modeRoute.title.text)
                         .containsPattern(modeRoute.titlePattern)
-                } catch (e: NoSuchElementException) {}
+                } catch (_: NoSuchElementException) {}
             }
         }
     }
@@ -54,12 +53,11 @@ class RoutingTest : BaseTest() {
             routeToInput.input("думская 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
-            val price = taxiRoute.price!!.text.drop(1).dropLast(2).toInt()
+            val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()
             assertThat(price).isGreaterThan(100)
             assertThat(price).isLessThan(1000)
 
-            // TODO: #5
-            taxiRoute.peekTariffButton!!.click()
+            taxiRoute.peekTariffButton.click()
 
             assertWindowSwitched(driver)
         }
@@ -68,7 +66,6 @@ class RoutingTest : BaseTest() {
     @Test
     fun nearestBar() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        // TODO: #5
         sidebar.showFoodPlaces()
         sidebar.closeAlert()
         sidebar.showBars()

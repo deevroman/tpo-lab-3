@@ -9,10 +9,10 @@ import page.Page
 
 class LoginDialog(private val driver: WebDriver): Page(driver) {
     @FindBy(css = ".login-dialog-view__button button")
-    private val loginButton: WebElement? = null
+    private lateinit var loginButton: WebElement
 
     fun login() {
         elementToBeClickable(loginButton).wait(driver)
-        loginButton!!.click()
+        loginButton.click()
     }
 }

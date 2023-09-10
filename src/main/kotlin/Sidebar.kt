@@ -14,29 +14,28 @@ import java.time.Duration
 open class Sidebar(private val driver: WebDriver): Page(driver) {
     // строка поиска
     @FindBy(xpath = "//input")
-    private val searchInput: WebElement? = null
+    private lateinit var searchInput: WebElement
 
     @FindBy(css = ".suggest__group")
-    private val searchResultView: WebElement? = null
+    private lateinit var searchResultView: WebElement
 
     @FindBy(css = "._type_route")
-    private val routeButton: WebElement? = null
+    private lateinit var routeButton: WebElement
 
     @FindBy(css = "._type_close")
-    private val closeButton: WebElement? = null
+    private lateinit var closeButton: WebElement
 
     @FindBy(css = ".close-button path")
-    private val closeAlertButton: WebElement? = null
+    private lateinit var closeAlertButton: WebElement
 
     @FindBy(css = "._id_food > .catalog-grid-view__icon")
-    private val foodIcon: WebElement? = null
+    private lateinit var foodIcon: WebElement
 
     @FindBy(css = ".search-list-view__list")
-    val searchResultList: WebElement? = null
+    lateinit var searchResultList: WebElement
 
     fun inputQuery(login: String?): Business? {
-        // TODO: #5
-        searchInput!!.sendKeys(login, Keys.ENTER)
+        searchInput.sendKeys(login, Keys.ENTER)
         Thread.sleep(Duration.ofSeconds(2).toMillis())
 
         return if (invisibilityOf(searchResultView).apply(driver))
@@ -50,8 +49,7 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     }
 
     fun openRoutePanel(): RoutePanel {
-        // TODO: #5
-        routeButton!!.click()
+        routeButton.click()
         return RoutePanel(driver)
     }
 
@@ -59,5 +57,5 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
 
     fun showBars() = waitClickableAndClick(driver, cssSelector("[aria-label=\"Бары\"]"))
 
-    fun closeAlert() = closeAlertButton!!.click()
+    fun closeAlert() = closeAlertButton.click()
 }

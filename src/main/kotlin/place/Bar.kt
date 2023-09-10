@@ -6,9 +6,9 @@ import org.openqa.selenium.support.FindBy
 
 class Bar(private val driver: WebDriver): Business(driver) {
     @FindBy(css = "._name_menu")
-    private val toMenu: WebElement? = null
+    private lateinit var toMenu: WebElement
 
     fun openMenu() {
-        toMenu!!.click()
+        toMenu.click()
     }
 }

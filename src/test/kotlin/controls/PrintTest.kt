@@ -13,7 +13,6 @@ class PrintTest: BaseTest() {
 
         assertWindowSwitched(driver)
 
-        // TODO: #5
-        printPage.printButton!!.click()
+        printPage.printButton.click()
     }
 }

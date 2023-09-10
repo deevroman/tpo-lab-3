@@ -21,8 +21,8 @@ fun waitClickableAndClick(d: WebDriver, by: By) {
     d.findElement(by).click()
 }
 
-fun waitClickableAndClick(d: WebDriver, element: WebElement?) {
+fun waitClickableAndClick(d: WebDriver, element: WebElement) {
     Thread.sleep(Duration.ofSeconds(2).toMillis())
     elementToBeClickable(element).wait(d)
-    element?.click()
+    element.click()
 }

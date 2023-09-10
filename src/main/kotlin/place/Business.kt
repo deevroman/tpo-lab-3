@@ -12,21 +12,20 @@ import route.RoutePanel
 
 open class Business(private val driver: WebDriver): Page(driver) {
     @FindBy(css = ".\\_view_primary > .button__icon > .inline-image")
-    private val routeToPlace: WebElement? = null
+    private lateinit var routeToPlace: WebElement
 
     @FindBy(css = ".business-header-rating-view__text")
-    private val ratingButton: WebElement? = null
+    private lateinit var ratingButton: WebElement
 
     fun openRouteToPlace(): RoutePanel {
         elementToBeClickable(routeToPlace).wait(driver)
-        // TODO: #5
-        routeToPlace!!.click()
+        routeToPlace.click()
         return RoutePanel(driver)
     }
 
     fun openRatingView(): Rating {
         elementToBeClickable(ratingButton).wait(driver)
-        ratingButton!!.click()
+        ratingButton.click()
         return Rating(driver)
     }
 

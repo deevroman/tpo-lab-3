@@ -8,10 +8,10 @@ import page.Page
 
 class Gallery(private val driver: WebDriver): Page(driver) {
     @FindBy(css = ".carousel__item:nth-child(2) .button__text")
-    private val videosTab: WebElement? = null
+    private lateinit var videosTab: WebElement
 
     @FindBy(css = ".carousel__item:nth-child(3) .button__text")
-    private val photosInsideTab: WebElement? = null
+    private lateinit var photosInsideTab: WebElement
 
     fun openVideos() = waitClickableAndClick(driver, videosTab)
 
