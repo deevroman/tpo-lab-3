@@ -5,11 +5,10 @@ import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOf
 import page.Page
 import place.Business
 import route.RoutePanel
-import java.time.Duration
+import route.Tooltip
 
 open class Sidebar(private val driver: WebDriver): Page(driver) {
     // строка поиска
@@ -23,10 +22,7 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     private lateinit var routeButton: WebElement
 
     @FindBy(css = "._type_close")
-    private lateinit var closeButton: WebElement
-
-    @FindBy(css = ".close-button path")
-    private lateinit var closeAlertButton: WebElement
+    lateinit var closeButton: WebElement
 
     @FindBy(css = "._id_food > .catalog-grid-view__icon")
     private lateinit var foodIcon: WebElement
@@ -34,13 +30,13 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     @FindBy(css = ".search-list-view__list")
     lateinit var searchResultList: WebElement
 
-    fun inputQuery(login: String?): Business? {
+    fun inputQuery(login: String?) {
         searchInput.sendKeys(login, Keys.ENTER)
-        Thread.sleep(Duration.ofSeconds(2).toMillis())
+    }
 
-        return if (invisibilityOf(searchResultView).apply(driver))
-            Business(driver)
-        else null
+    fun openBusinessByQuery(business: String): Business {
+        searchInput.sendKeys(business, Keys.ENTER)
+        return Business(driver)
     }
 
     fun openBusinessFromResult(i: Int = 1): Business {
@@ -53,9 +49,10 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
         return RoutePanel(driver)
     }
 
-    fun showFoodPlaces() = waitClickableAndClick(driver, foodIcon)
+    fun showFoodPlaces(): Tooltip {
+        waitClickableAndClick(driver, foodIcon)
+        return Tooltip(driver)
+    }
 
     fun showBars() = waitClickableAndClick(driver, cssSelector("[aria-label=\"Бары\"]"))
-
-    fun closeAlert() = closeAlertButton.click()
 }

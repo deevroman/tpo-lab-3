@@ -1,6 +1,7 @@
 package route
 
 import base.wait
+import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
@@ -30,5 +31,15 @@ class RoutePanel(private val driver: WebDriver): Page(driver) {
         elementToBeClickable(route.modeButton).wait(driver)
         route.modeButton.click()
         return route
+    }
+
+    fun isDisplayed() = try {
+        listOf(
+            routeToInput,
+            routeFromInput
+        )
+            .any { it.isDisplayed }
+    } catch (e: NoSuchElementException) {
+        false
     }
 }

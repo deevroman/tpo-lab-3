@@ -1,13 +1,25 @@
 package route
 
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.FindBy
+import page.Page
 
-interface Route {
-    val mode: Mode
-    val modeButton: WebElement
-    val title: WebElement
-    val titlePattern: String
-    val duration: WebElement
+abstract class Route(driver: WebDriver): Page(driver) {
+    abstract val mode: Mode
+    abstract val modeButton: WebElement
+    abstract val title: WebElement
+    abstract val titlePattern: String
+    protected abstract val duration: WebElement
+
+    @FindBy(css = ".route-error-view__text")
+    lateinit var routeError: WebElement
+
+    fun duration() = duration
+        .text
+        .split(" ")
+        .first()
+        .toInt()
 }
 
 enum class Mode {

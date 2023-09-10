@@ -3,10 +3,9 @@ package route
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import page.Page
 import route.Mode.AUTO
 
-class AutoRoute(driver: WebDriver) : Page(driver), Route {
+class AutoRoute(driver: WebDriver) : Route(driver) {
     override val mode: Mode = AUTO
 
     @FindBy(css = "._mode_auto")

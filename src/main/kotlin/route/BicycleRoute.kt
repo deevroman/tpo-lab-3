@@ -3,10 +3,9 @@ package route
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import page.Page
 import route.Mode.BICYCLE
 
-class BicycleRoute(driver: WebDriver): Page(driver), Route {
+class BicycleRoute(driver: WebDriver): Route(driver) {
     override val mode: Mode = BICYCLE
 
     @FindBy(css = "._mode_bicycle")

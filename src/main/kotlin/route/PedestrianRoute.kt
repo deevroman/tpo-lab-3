@@ -3,10 +3,9 @@ package route
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import page.Page
 import route.Mode.PEDESTRIAN
 
-class PedestrianRoute(driver: WebDriver): Page(driver), Route {
+class PedestrianRoute(driver: WebDriver): Route(driver) {
     override val mode: Mode = PEDESTRIAN
 
     @FindBy(css = "._mode_pedestrian")
