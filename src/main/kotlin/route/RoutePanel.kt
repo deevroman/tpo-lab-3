@@ -38,7 +38,7 @@ class RoutePanel(private val driver: WebDriver): Page(driver) {
             routeToInput,
             routeFromInput
         )
-            .any { it!!.isDisplayed }
+            .any { it.isDisplayed }
     } catch (e: NoSuchElementException) {
         false
     }
