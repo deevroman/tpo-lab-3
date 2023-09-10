@@ -14,8 +14,9 @@ class MapControls(private val driver: WebDriver) : Page(driver) {
     @FindBy(xpath = "//div[2]/div/button")
     private lateinit var extButton: WebElement
 
-    fun clickTrafficButton() {
+    fun openTrafficPanel(): TrafficPanel {
         trafficButton.click()
+        return TrafficPanel(driver)
     }
 
     fun openExtControls(): ExtControls {
