@@ -10,10 +10,16 @@ abstract class Route(driver: WebDriver): Page(driver) {
     abstract val modeButton: WebElement
     abstract val title: WebElement
     abstract val titlePattern: String
-    abstract val duration: WebElement
+    protected abstract val duration: WebElement
 
     @FindBy(css = ".route-error-view__text")
     lateinit var routeError: WebElement
+
+    fun duration() = duration
+        .text
+        .split(" ")
+        .first()
+        .toInt()
 }
 
 enum class Mode {

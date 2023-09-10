@@ -28,11 +28,7 @@ class RoutingTest : BaseTest() {
                 assertThat(modeRoute.modeButton.hasClass("_checked")).isTrue
 
                 try {
-                    val routeDuration = modeRoute.duration
-                        .text
-                        .split(" ")
-                        .first()
-                        .toInt()
+                    val routeDuration = modeRoute.duration()
 
                     assertThat(routeDuration).isNotEqualTo(prevDuration)
                     prevDuration = routeDuration
