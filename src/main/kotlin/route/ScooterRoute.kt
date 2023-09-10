@@ -3,10 +3,9 @@ package route
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import page.Page
 import route.Mode.SCOOTER
 
-class ScooterRoute(driver: WebDriver) : Page(driver), Route {
+class ScooterRoute(driver: WebDriver) : Route(driver) {
     override val mode: Mode = SCOOTER
 
     @FindBy(css = "._mode_scooter")

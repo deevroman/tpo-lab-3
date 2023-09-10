@@ -39,7 +39,11 @@ class RoutingTest : BaseTest() {
 
                     assertThat(modeRoute.title.text)
                         .containsPattern(modeRoute.titlePattern)
-                } catch (_: NoSuchElementException) {}
+                } catch (_: NoSuchElementException) {
+                    assertThat(mode == TAXI).isTrue
+                    assertThat(modeRoute.routeError.text)
+                        .isEqualTo("Не удалось проложить\nмаршрут на такси")
+                }
             }
         }
     }
