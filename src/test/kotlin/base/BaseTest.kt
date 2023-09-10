@@ -54,9 +54,9 @@ open class BaseTest(
 
     protected fun runTest(testFun: (WebDriver) -> Unit) = runTest(drivers, testFun)
 
-    protected fun WebElement?.input(text: String) = this!!.sendKeys(text, ENTER)
+    protected fun WebElement.input(text: String) = this.sendKeys(text, ENTER)
 
-    protected fun WebElement?.hasClass(className: String) = this!!
+    protected fun WebElement.hasClass(className: String) = this
         .getAttribute("class")
         .split(" ")
         .contains(className)

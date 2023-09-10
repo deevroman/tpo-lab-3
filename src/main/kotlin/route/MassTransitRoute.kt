@@ -10,12 +10,12 @@ class MassTransitRoute(driver: WebDriver): Page(driver), Route {
     override val mode: Mode = MASS_TRANSIT
 
     @FindBy(css = "._mode_masstransit")
-    override val modeButton: WebElement? = null
+    override lateinit var modeButton: WebElement
 
     @FindBy(css = ".masstransit-route-snippet-view__route-title")
-    override val title: WebElement? = null
+    override lateinit var title: WebElement
     override val titlePattern: String = "\\d{1,2} минПрибытие в \\d{1,2}:\\d{1,2}"
 
     @FindBy(css = ".masstransit-route-snippet-view__route-duration")
-    override val duration: WebElement? = null
+    override lateinit var duration: WebElement
 }
