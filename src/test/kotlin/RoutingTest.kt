@@ -83,20 +83,19 @@ class RoutingTest : BaseTest() {
 
         sidebar.showBars()
 
-        // TODO: #5 wait until loader
         val bar = sidebar.openBusinessFromResult().asBar()
         bar.openMenu()
         bar.openPosts()
 
         val post = bar.openPost(1)
         assertThat(post.title.text.lowercase())
-            .isEqualTo("1 марта 2023")
+            .isEqualTo("25 февраля 2022")
         assertThat(post.text.text)
-            .isEqualTo("31 Chemical network дарит скидку 20% на коктейльное меню" +
-                    " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
-                    " а наши ученые поздравят сладким сюрпризом!\n\n" +
-                    "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
-                    "*Скидки и акции не суммируются. Подробнее по телефону.")
+            .isEqualTo(
+                "Акция в ирландском пабе Mollie`s Mews на Большой Конюшенной улице.\n\n" +
+                "Сет из 3х одинаковых шотов - 780 руб. А сет из 5ти шотов 1070 руб! \n\n\n" +
+                "*Сроки действия акции уточняйте по телефону, указанному в профиле."
+            )
 
         val gallery = bar.openGallery()
         gallery.openVideos()
@@ -104,7 +103,7 @@ class RoutingTest : BaseTest() {
 
         val rating = bar.openRatingView()
         assertThat(rating.ratingValue.text)
-            .isEqualTo("Рейтинг \n5,0")
+            .isEqualTo("Рейтинг \n4,9")
         assertThat(rating.ratingSummary.text)
             .matches("\\d{4} оцен(ок|ка|ки)")
 
@@ -113,13 +112,13 @@ class RoutingTest : BaseTest() {
             .isEqualTo(listOf(
                 "Цена бокала пива:",
                 "Цены:",
-                "Средний счёт:",
+                "Цена бизнес-ланча:",
             ))
         assertThat(features.getFeatureValues(3))
             .isEqualTo(listOf(
-                "370 ₽",
+                "330–630 ₽",
                 "выше среднего",
-                "1000–1500 ₽"
+                "350 ₽"
             ))
     }
 
