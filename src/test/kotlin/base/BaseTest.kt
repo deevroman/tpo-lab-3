@@ -60,4 +60,6 @@ open class BaseTest(
         .getAttribute("class")
         .split(" ")
         .contains(className)
+
+    protected val WebElement.value: String get() = getAttribute("value")
 }
