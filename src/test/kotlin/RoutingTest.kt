@@ -88,13 +88,15 @@ class RoutingTest : BaseTest() {
         bar.openPosts()
 
         val post = bar.openPost(1)
-        assertThat(post.title.text.lowercase())
-            .isEqualTo("25 февраля 2022")
+        assertThat(post.date.text.lowercase())
+            .isEqualTo("1 марта, 19:16")
         assertThat(post.text.text)
             .isEqualTo(
-                "Акция в ирландском пабе Mollie`s Mews на Большой Конюшенной улице.\n\n" +
-                "Сет из 3х одинаковых шотов - 780 руб. А сет из 5ти шотов 1070 руб! \n\n\n" +
-                "*Сроки действия акции уточняйте по телефону, указанному в профиле."
+                "31 Chemical network дарит скидку 20% на коктейльное меню" +
+                " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
+                " а наши ученые поздравят сладким сюрпризом!\n\n" +
+                "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
+                "*Скидки и акции не суммируются. Подробнее по телефону."
             )
 
         val gallery = bar.openGallery()
@@ -103,7 +105,7 @@ class RoutingTest : BaseTest() {
 
         val rating = bar.openRatingView()
         assertThat(rating.ratingValue.text)
-            .isEqualTo("Рейтинг \n4,9")
+            .isEqualTo("Рейтинг \n5,0")
         assertThat(rating.ratingSummary.text)
             .matches("\\d{4} оцен(ок|ка|ки)")
 
@@ -112,13 +114,13 @@ class RoutingTest : BaseTest() {
             .isEqualTo(listOf(
                 "Цена бокала пива:",
                 "Цены:",
-                "Цена бизнес-ланча:",
+                "Средний счёт:",
             ))
         assertThat(features.getFeatureValues(3))
             .isEqualTo(listOf(
-                "330–630 ₽",
+                "370 ₽",
                 "выше среднего",
-                "350 ₽"
+                "1000–1500 ₽"
             ))
     }
 
