@@ -9,10 +9,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import page.Page
 
 class RoutePanel(private val driver: WebDriver): Page(driver) {
-    @FindBy(xpath = "//div[2]/div/div/span/span/input")
+    @FindBy(css = "[placeholder=\"Откуда\"]")
     lateinit var routeFromInput: WebElement
 
-    @FindBy(xpath = "//div[2]/div/div/div[2]/div/div/span/span/input")
+    @FindBy(css = "[placeholder=\"Куда\"]")
     lateinit var routeToInput: WebElement
 
     private val routes = listOf<Route>(
