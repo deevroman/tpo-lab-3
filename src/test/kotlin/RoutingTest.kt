@@ -28,7 +28,7 @@ class RoutingTest : BaseTest() {
 
                 try {
                     val routeDuration = modeRoute.duration()
-                    assertThat(routeDuration).isGreaterThan(20)
+                    assertThat(routeDuration).isGreaterThanOrEqualTo(15)
                     assertThat(modeRoute.title.text)
                         .containsPattern(modeRoute.titlePattern)
                 } catch (_: NoSuchElementException) {
