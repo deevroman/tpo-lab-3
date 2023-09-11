@@ -1,5 +1,6 @@
 
 import base.BaseTest
+import base.wait
 import base.waitClickableAndClick
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -46,11 +47,13 @@ class RoutingTest : BaseTest() {
         val routePanel = sidebar.openRoutePanel()
 
         with(routePanel) {
-            routeFromInput.input("кронверкский 49")
-            routeToInput.input("думская 4")
+            routeFromInput.input("кронверкская 4")
+            routeToInput.input("кронверкский 49")
 
-            assertThat(routeFromInput.value).isEqualTo("Кронверкский проспект, 49")
-            assertThat(routeToInput.value).isEqualTo("Думская улица, 4")
+            driver.wait {
+                routeFromInput.value == "Кронверкская улица, 4" &&
+                routeToInput.value == "Кронверкский проспект, 49"
+            }
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()

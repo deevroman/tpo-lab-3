@@ -15,6 +15,13 @@ fun <T> ExpectedCondition<T>.wait(driver: WebDriver) {
     ).until(this)
 }
 
+fun WebDriver.wait(condition: () -> Boolean) {
+    WebDriverWait(
+        this,
+        Duration.ofSeconds(10)
+    ).until { condition() }
+}
+
 fun waitClickableAndClick(d: WebDriver, by: By) {
     Thread.sleep(Duration.ofSeconds(2).toMillis())
     elementToBeClickable(by).wait(d)
