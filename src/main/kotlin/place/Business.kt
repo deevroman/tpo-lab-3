@@ -1,16 +1,15 @@
 package place
 
-import base.wait
 import base.waitClickableAndClick
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable
 import page.Page
 import route.RoutePanel
+import java.time.Duration
 
-open class Business(private val driver: WebDriver): Page(driver) {
+open class Business(private val driver: WebDriver) : Page(driver) {
     @FindBy(css = ".\\_view_primary > .button__icon > .inline-image")
     private lateinit var routeToPlace: WebElement
 
@@ -18,13 +17,13 @@ open class Business(private val driver: WebDriver): Page(driver) {
     private lateinit var ratingButton: WebElement
 
     fun openRouteToPlace(): RoutePanel {
-        elementToBeClickable(routeToPlace).wait(driver)
+        Thread.sleep(Duration.ofSeconds(1).toMillis())
         routeToPlace.click()
         return RoutePanel(driver)
     }
 
     fun openRatingView(): Rating {
-        elementToBeClickable(ratingButton).wait(driver)
+        Thread.sleep(Duration.ofSeconds(1).toMillis())
         ratingButton.click()
         return Rating(driver)
     }

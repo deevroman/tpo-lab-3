@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import page.Page
+import java.time.Duration
 
 class MapControls(private val driver: WebDriver) : Page(driver) {
     // кнопка пробок
@@ -16,6 +17,7 @@ class MapControls(private val driver: WebDriver) : Page(driver) {
 
     fun openTrafficPanel(): TrafficPanel {
         trafficButton.click()
+        Thread.sleep(Duration.ofSeconds(3).toMillis())
         return TrafficPanel(driver)
     }
 

@@ -1,18 +1,21 @@
-
+import base.wait
 import base.waitClickableAndClick
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.CacheLookup
 import org.openqa.selenium.support.FindBy
+import org.openqa.selenium.support.ui.ExpectedConditions
 import page.Page
 import place.Business
 import route.RoutePanel
 import route.Tooltip
+import java.time.Duration
 
-open class Sidebar(private val driver: WebDriver): Page(driver) {
+open class Sidebar(private val driver: WebDriver) : Page(driver) {
     // строка поиска
-    @FindBy(xpath = "//input")
+    @FindBy(css = ".input__control")
     private lateinit var searchInput: WebElement
 
     @FindBy(css = ".suggest__group")
@@ -31,10 +34,12 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     lateinit var searchResultList: WebElement
 
     fun inputQuery(login: String?) {
+        Thread.sleep(Duration.ofSeconds(2).toMillis())
         searchInput.sendKeys(login, Keys.ENTER)
     }
 
     fun openBusinessByQuery(business: String): Business {
+        Thread.sleep(Duration.ofSeconds(2).toMillis())
         searchInput.sendKeys(business, Keys.ENTER)
         return Business(driver)
     }
@@ -45,6 +50,7 @@ open class Sidebar(private val driver: WebDriver): Page(driver) {
     }
 
     fun openRoutePanel(): RoutePanel {
+        Thread.sleep(Duration.ofSeconds(1).toMillis())
         routeButton.click()
         return RoutePanel(driver)
     }

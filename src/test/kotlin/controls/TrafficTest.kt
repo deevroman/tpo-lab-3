@@ -10,7 +10,6 @@ class TrafficTest : BaseTest() {
         val mapControls = MapControls(driver)
 
         val trafficPanel = mapControls.openTrafficPanel()
-        Thread.sleep(Duration.ofSeconds(5).toMillis())
         val trafficText = trafficPanel.trafficInfo.text
 
         assertThat(trafficText).matches("Пробки \\d{1,2} балл(|а|ов)")

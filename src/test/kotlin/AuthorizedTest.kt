@@ -8,7 +8,6 @@ class AuthorizedTest : BaseTest() {
     @Test
     fun `5 star`() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        Thread.sleep(Duration.ofSeconds(2).toMillis())
         sidebar.inputQuery("университет итмо")
         val businessView = sidebar.openBusinessFromResult()
 

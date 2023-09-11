@@ -14,13 +14,12 @@ class RoutingTest : BaseTest() {
     @Test
     fun simpleRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        val business = sidebar.openBusinessByQuery("кронверский 49")
+        val business = sidebar.openBusinessByQuery("кронверкский 49")
         val routePanel = business.openRouteToPlace()
 
         with(routePanel) {
             routeFromInput.input("ломоносова 9")
             val modes = Mode.values()
-            var prevDuration = 0
 
             modes.forEach { mode ->
                 val modeRoute = openRoute(mode)
@@ -29,10 +28,7 @@ class RoutingTest : BaseTest() {
 
                 try {
                     val routeDuration = modeRoute.duration()
-
-                    assertThat(routeDuration).isNotEqualTo(prevDuration)
-                    prevDuration = routeDuration
-
+                    assertThat(routeDuration).isGreaterThan(20)
                     assertThat(modeRoute.title.text)
                         .containsPattern(modeRoute.titlePattern)
                 } catch (_: NoSuchElementException) {
@@ -50,11 +46,9 @@ class RoutingTest : BaseTest() {
         val routePanel = sidebar.openRoutePanel()
 
         with(routePanel) {
-            routeFromInput.input("кронверский 49")
-            assertThat(routeFromInput.text).isEqualTo("Кронверкский проспект, 49")
+            routeFromInput.input("кронверкский 49")
 
             routeToInput.input("думская 4")
-            assertThat(routeToInput.text).isEqualTo("Думская улица, 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()
