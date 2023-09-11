@@ -1,6 +1,7 @@
 package place
 
 import base.waitClickableAndClick
+import base.waitReady
 import org.openqa.selenium.By.cssSelector
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -28,7 +29,10 @@ open class Business(private val driver: WebDriver) : Page(driver) {
         return Rating(driver)
     }
 
-    fun openPosts() = waitClickableAndClick(driver, cssSelector(".\\_name_posts"))
+    fun openPosts() {
+        waitClickableAndClick(driver, cssSelector(".\\_name_posts"))
+        driver.waitReady(2)
+    }
 
     fun openPost(i: Int): Post {
         waitClickableAndClick(
