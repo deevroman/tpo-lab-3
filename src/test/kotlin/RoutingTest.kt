@@ -50,11 +50,11 @@ class RoutingTest : BaseTest() {
         val routePanel = sidebar.openRoutePanel()
 
         with(routePanel) {
-            routeFromInput.input("кронверский 49")
-            assertThat(routeFromInput.text).isEqualTo("Кронверкский проспект, 49")
-
+            routeFromInput.input("кронверкский 49")
             routeToInput.input("думская 4")
-            assertThat(routeToInput.text).isEqualTo("Думская улица, 4")
+
+            assertThat(routeFromInput.value).isEqualTo("Кронверкский проспект, 49")
+            assertThat(routeToInput.value).isEqualTo("Думская улица, 4")
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()
