@@ -19,8 +19,5 @@ class AuthorizedTest : BaseTest() {
 
         Thread.sleep(Duration.ofSeconds(1).toMillis())
         loginDialog.login()
-
-        // assertWindowSwitched(driver)
-        // TODO: #8 auth page
     }
 }

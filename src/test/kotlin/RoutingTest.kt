@@ -85,9 +85,7 @@ class RoutingTest : BaseTest() {
 
         // TODO: #5 wait until loader
         val bar = sidebar.openBusinessFromResult().asBar()
-        // TODO: #8 assert bar is displayed
         bar.openMenu()
-        // TODO: #8 assert menu
         bar.openPosts()
 
         val post = bar.openPost(1)
@@ -137,6 +135,4 @@ class RoutingTest : BaseTest() {
 
         assertThat(routePanel.isDisplayed()).isFalse
     }
-
-    // TODO: #8 test catalog-grid-view
 }
