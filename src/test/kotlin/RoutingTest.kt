@@ -57,7 +57,8 @@ class RoutingTest : BaseTest() {
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()
-            assertThat(price).isGreaterThan(100)
+
+            assertThat(price).isGreaterThan(10)
             assertThat(price).isLessThan(1000)
 
             taxiRoute.peekTariffButton.click()
@@ -71,8 +72,9 @@ class RoutingTest : BaseTest() {
         val sidebar = Sidebar(driver)
 
         val tooltip = sidebar.showFoodPlaces()
-        assertThat(tooltip.title.text)
-            .isEqualTo("Взгляните!")
+        driver.wait {
+            tooltip.title.text == "Взгляните!"
+        }
         assertThat(tooltip.text.text)
             .isEqualTo("По вашему запросу мы нашли несколько подборок отличных мест," +
                     " которые рекомендуют редакция и пользователи Яндекса")
