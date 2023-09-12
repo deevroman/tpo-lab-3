@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class AuthorizedTest : BaseTest() {
     @Test
-    fun `login required when setting business rating`() = runTest { driver ->
+    fun `login should be required when setting business rating`() = runTest { driver ->
         val sidebar = Sidebar(driver)
         sidebar.inputQuery("университет итмо")
 

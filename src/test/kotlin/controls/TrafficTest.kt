@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class TrafficTest : BaseTest() {
     @Test
-    fun traffic() = runTest { driver ->
+    fun `can see traffic info`() = runTest { driver ->
         val mapControls = MapControls(driver)
 
         val trafficPanel = mapControls.openTrafficPanel()
