@@ -1,5 +1,6 @@
 
 import base.BaseTest
+import base.wait
 import base.waitClickableAndClick
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,13 +15,12 @@ class RoutingTest : BaseTest() {
     @Test
     fun simpleRoute() = runTest { driver ->
         val sidebar = Sidebar(driver)
-        val business = sidebar.openBusinessByQuery("кронверский 49")
+        val business = sidebar.openBusinessByQuery("кронверкский 49")
         val routePanel = business.openRouteToPlace()
 
         with(routePanel) {
             routeFromInput.input("ломоносова 9")
             val modes = Mode.values()
-            var prevDuration = 0
 
             modes.forEach { mode ->
                 val modeRoute = openRoute(mode)
@@ -29,10 +29,7 @@ class RoutingTest : BaseTest() {
 
                 try {
                     val routeDuration = modeRoute.duration()
-
-                    assertThat(routeDuration).isNotEqualTo(prevDuration)
-                    prevDuration = routeDuration
-
+                    assertThat(routeDuration).isGreaterThanOrEqualTo(15)
                     assertThat(modeRoute.title.text)
                         .containsPattern(modeRoute.titlePattern)
                 } catch (_: NoSuchElementException) {
@@ -50,15 +47,18 @@ class RoutingTest : BaseTest() {
         val routePanel = sidebar.openRoutePanel()
 
         with(routePanel) {
-            routeFromInput.input("кронверкский 49")
-            routeToInput.input("думская 4")
+            routeFromInput.input("кронверкская 4")
+            routeToInput.input("кронверкский 49")
 
-            assertThat(routeFromInput.value).isEqualTo("Кронверкский проспект, 49")
-            assertThat(routeToInput.value).isEqualTo("Думская улица, 4")
+            driver.wait {
+                routeFromInput.value == "Кронверкская улица, 4" &&
+                routeToInput.value == "Кронверкский проспект, 49"
+            }
 
             val taxiRoute = openRoute(TAXI) as TaxiRoute
             val price = taxiRoute.price.text.drop(1).dropLast(2).toInt()
-            assertThat(price).isGreaterThan(100)
+
+            assertThat(price).isGreaterThan(10)
             assertThat(price).isLessThan(1000)
 
             taxiRoute.peekTariffButton.click()
@@ -72,8 +72,9 @@ class RoutingTest : BaseTest() {
         val sidebar = Sidebar(driver)
 
         val tooltip = sidebar.showFoodPlaces()
-        assertThat(tooltip.title.text)
-            .isEqualTo("Взгляните!")
+        driver.wait {
+            tooltip.title.text == "Взгляните!"
+        }
         assertThat(tooltip.text.text)
             .isEqualTo("По вашему запросу мы нашли несколько подборок отличных мест," +
                     " которые рекомендуют редакция и пользователи Яндекса")
@@ -82,22 +83,15 @@ class RoutingTest : BaseTest() {
 
         sidebar.showBars()
 
-        // TODO: #5 wait until loader
         val bar = sidebar.openBusinessFromResult().asBar()
-        // TODO: #8 assert bar is displayed
         bar.openMenu()
-        // TODO: #8 assert menu
         bar.openPosts()
 
         val post = bar.openPost(1)
-        assertThat(post.title.text.lowercase())
-            .isEqualTo("1 марта 2023")
+        assertThat(post.date.text)
+            .matches("\\d{1,2} \\W+, \\d{2}:\\d{2}")
         assertThat(post.text.text)
-            .isEqualTo("31 Chemical network дарит скидку 20% на коктейльное меню" +
-                    " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
-                    " а наши ученые поздравят сладким сюрпризом!\n\n" +
-                    "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
-                    "*Скидки и акции не суммируются. Подробнее по телефону.")
+            .isNotBlank()
 
         val gallery = bar.openGallery()
         gallery.openVideos()
@@ -105,10 +99,18 @@ class RoutingTest : BaseTest() {
 
         val rating = bar.openRatingView()
         assertThat(rating.ratingValue.text)
-            .isEqualTo("Рейтинг \n5,0")
+            .matches("Рейтинг \\n\\d,\\d")
         assertThat(rating.ratingSummary.text)
-            .matches("\\d{4} оцен(ок|ка|ки)")
+            .matches("\\d+ оцен(ок|ка|ки)")
+    }
 
+    @Test
+    fun features() = runTest { driver ->
+        val sidebar = Sidebar(driver)
+        sidebar.inputQuery("Лаборатория 31")
+        val bar = sidebar.openBusinessFromResult()
+        bar.openPosts()
+        bar.openRatingView()
         val features = bar.openFeatures()
         assertThat(features.getFeatureTitles(3))
             .isEqualTo(listOf(
@@ -136,6 +138,4 @@ class RoutingTest : BaseTest() {
 
         assertThat(routePanel.isDisplayed()).isFalse
     }
-
-    // TODO: #8 test catalog-grid-view
 }

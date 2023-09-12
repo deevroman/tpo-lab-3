@@ -1,8 +1,7 @@
 package controls
 import base.BaseTest
-import org.assertj.core.api.Assertions.assertThat
+import base.wait
 import org.junit.jupiter.api.Test
-import java.time.Duration
 
 class TrafficTest : BaseTest() {
     @Test
@@ -10,12 +9,10 @@ class TrafficTest : BaseTest() {
         val mapControls = MapControls(driver)
 
         val trafficPanel = mapControls.openTrafficPanel()
-        Thread.sleep(Duration.ofSeconds(5).toMillis())
         val trafficText = trafficPanel.trafficInfo.text
 
-        assertThat(trafficText).matches("Пробки \\d{1,2} балл(|а|ов)")
-        // Click on canvas?
-        // mainPage.driver.findElement(linkText("ГАТИ Правительства Санкт-Петербурга")).click()
-        // assertWindowSwitched(d)
+        driver.wait {
+            trafficText.matches("Пробки \\d{1,2} балл(|а|ов)".toRegex())
+        }
     }
 }

@@ -6,9 +6,9 @@ import org.openqa.selenium.support.FindBy
 import page.Page
 
 class Post(driver: WebDriver): Page(driver) {
-    @FindBy(css = ".business-post-view__title")
-    lateinit var title: WebElement
+    @FindBy(css = ".business-posts-list-post-view__date")
+    lateinit var date: WebElement
 
-    @FindBy(css = ".business-post-view__text")
+    @FindBy(css = ".business-posts-list-post-view__text")
     lateinit var text: WebElement
 }

@@ -1,30 +1,35 @@
 package base
 
-import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebDriver
-import java.util.concurrent.ExecutionException
+import java.util.*
 import java.util.concurrent.Executors
+import kotlin.io.path.Path
+import kotlin.io.path.bufferedWriter
+import kotlin.io.path.createFile
 
 fun runTest(driverList: Map<String, WebDriver>, testFun: (WebDriver) -> Unit) {
 
     val executor = Executors.newFixedThreadPool(driverList.size)
     val results = driverList.map {
-        executor.submit {
+        val sessionId = "fake-id-" + UUID.randomUUID()
+
+        Pair("${it.key}-$sessionId", it.value) to executor.submit {
             testFun(it.value)
         }
     }
     executor.shutdown()
-    results.forEach {
+    results.forEach { (namedDriver, result) ->
         try {
-            it.get()
-        } catch (e: ExecutionException) {
-            println("ExecutionException: ${e.message}")
-            println("ExecutionException: ${e.stackTraceToString()}")
-            Assertions.fail<Any>()
-        } catch (e: InterruptedException) {
-            println("InterruptedException: ${e.message}")
-            println("InterruptedException: ${e.stackTraceToString()}")
-            Assertions.fail<Any>()
+            result.get()
+        } catch (e: Exception) {
+            try {
+                Path("build/tmp/test/${namedDriver.first}.html")
+                    .createFile()
+                    .bufferedWriter()
+                    .use { it.write(namedDriver.second.pageSource) }
+            } catch (_: Exception) {}
+
+            throw e.cause ?: e
         }
     }
 }

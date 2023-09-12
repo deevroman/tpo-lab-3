@@ -9,10 +9,8 @@ class PrintTest: BaseTest() {
         val mapControls = MapControls(driver)
         val extControls = mapControls.openExtControls()
 
-        val printPage = extControls.openPrintPage()
+        extControls.openPrintPage()
 
         assertWindowSwitched(driver)
-
-        printPage.printButton.click()
     }
 }

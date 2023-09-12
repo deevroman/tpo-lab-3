@@ -1,18 +1,16 @@
 package config
 
-import org.openqa.selenium.JavascriptExecutor
+import base.waitReady
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.support.ui.WebDriverWait
 import java.net.MalformedURLException
 import java.net.URL
-import java.time.Duration
+import java.time.Duration.ofSeconds
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 class DriversSupplier(
     private val driversConfig: DriversConfig,
@@ -72,15 +70,10 @@ class DriversSupplier(
             addArguments("--remote-allow-origins=*")
         }
 
-        val chromeDriver = RemoteWebDriver(selenoidUrl, chromeOptions)
-
-        chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
-        WebDriverWait(chromeDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
-            "complete" == (webDriver as JavascriptExecutor).executeScript(
-                "return document.readyState"
-            )
+        return RemoteWebDriver(selenoidUrl, chromeOptions).apply {
+            manage().timeouts().implicitlyWait(ofSeconds(10))
+            waitReady(5)
         }
-        return chromeDriver
     }
 
     @Throws(MalformedURLException::class)
@@ -90,14 +83,9 @@ class DriversSupplier(
             setCapability("selenoid:options", opts("$name-firefox"))
         }
 
-        val firefoxDriver = RemoteWebDriver(selenoidUrl, firefoxOptions)
-
-        firefoxDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10))
-        WebDriverWait(firefoxDriver, Duration.of(5, ChronoUnit.SECONDS)).until { webDriver: WebDriver ->
-            "complete" == (webDriver as JavascriptExecutor).executeScript(
-                "return document.readyState"
-            )
+        return RemoteWebDriver(selenoidUrl, firefoxOptions).apply {
+            manage().timeouts().implicitlyWait(ofSeconds(10))
+            waitReady(5)
         }
-        return firefoxDriver
     }
 }

@@ -22,5 +22,5 @@ class Config {
         gson.fromJson(it, selenoidBrowsersConfigTypeToken)
     }
 
-    val baseUrl: String = "https://yandex.ru/maps"
+    val baseUrl: String = "https://yandex.ru/maps/2/saint-petersburg"
 }
