@@ -83,22 +83,21 @@ class RoutingTest : BaseTest() {
 
         sidebar.showBars()
 
-        // TODO: #5 wait until loader
         val bar = sidebar.openBusinessFromResult().asBar()
-        // TODO: #8 assert bar is displayed
         bar.openMenu()
-        // TODO: #8 assert menu
         bar.openPosts()
 
         val post = bar.openPost(1)
-        assertThat(post.title.text.lowercase())
-            .isEqualTo("1 марта 2023")
+        assertThat(post.date.text.lowercase())
+            .isEqualTo("1 марта, 19:16")
         assertThat(post.text.text)
-            .isEqualTo("31 Chemical network дарит скидку 20% на коктейльное меню" +
-                    " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
-                    " а наши ученые поздравят сладким сюрпризом!\n\n" +
-                    "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
-                    "*Скидки и акции не суммируются. Подробнее по телефону.")
+            .isEqualTo(
+                "31 Chemical network дарит скидку 20% на коктейльное меню" +
+                " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
+                " а наши ученые поздравят сладким сюрпризом!\n\n" +
+                "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
+                "*Скидки и акции не суммируются. Подробнее по телефону."
+            )
 
         val gallery = bar.openGallery()
         gallery.openVideos()
@@ -137,6 +136,4 @@ class RoutingTest : BaseTest() {
 
         assertThat(routePanel.isDisplayed()).isFalse
     }
-
-    // TODO: #8 test catalog-grid-view
 }
