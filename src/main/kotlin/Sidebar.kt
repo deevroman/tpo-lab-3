@@ -27,9 +27,9 @@ open class Sidebar(private val driver: WebDriver) : Page(driver) {
     @FindBy(css = ".search-list-view__list")
     lateinit var searchResultList: WebElement
 
-    fun inputQuery(login: String?) {
+    fun inputQuery(query: String?) {
         Thread.sleep(Duration.ofSeconds(2).toMillis())
-        searchInput.sendKeys(login, Keys.ENTER)
+        searchInput.sendKeys(query, Keys.ENTER)
     }
 
     fun openBusinessByQuery(business: String): Business {

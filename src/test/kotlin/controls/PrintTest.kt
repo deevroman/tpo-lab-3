@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class PrintTest: BaseTest() {
     @Test
-    fun print() = runTest { driver ->
+    fun `can print map`() = runTest { driver ->
         val mapControls = MapControls(driver)
         val extControls = mapControls.openExtControls()
 

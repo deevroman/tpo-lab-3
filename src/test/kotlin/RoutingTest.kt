@@ -13,7 +13,7 @@ import route.TaxiRoute
 class RoutingTest : BaseTest() {
 
     @Test
-    fun simpleRoute() = runTest { driver ->
+    fun `can make route for each mode`() = runTest { driver ->
         val sidebar = Sidebar(driver)
         val business = sidebar.openBusinessByQuery("кронверкский 49")
         val routePanel = business.openRouteToPlace()
@@ -42,7 +42,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun taxi() = runTest { driver ->
+    fun `can get taxi`() = runTest { driver ->
         val sidebar = Sidebar(driver)
         val routePanel = sidebar.openRoutePanel()
 
@@ -68,7 +68,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun nearestBar() = runTest { driver ->
+    fun `can open nearest bar from suggested and see its posts and rating`() = runTest { driver ->
         val sidebar = Sidebar(driver)
 
         val tooltip = sidebar.showFoodPlaces()
@@ -105,7 +105,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun features() = runTest { driver ->
+    fun `can see business features`() = runTest { driver ->
         val sidebar = Sidebar(driver)
         sidebar.inputQuery("Лаборатория 31")
         val bar = sidebar.openBusinessFromResult()
@@ -127,7 +127,7 @@ class RoutingTest : BaseTest() {
     }
 
     @Test
-    fun closeRoute() = runTest { driver ->
+    fun `can close route`() = runTest { driver ->
         val sidebar = Sidebar(driver)
         val business = sidebar.openBusinessByQuery("кронверкский 49")
         val routePanel = business.openRouteToPlace()
