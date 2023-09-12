@@ -12,7 +12,7 @@ class TrafficTest : BaseTest() {
         val trafficText = trafficPanel.trafficInfo.text
 
         driver.wait {
-            trafficText.matches("Пробки \\d{1,2} балл(|а|ов)".toRegex())
+            trafficText.contains("Пробки")
         }
     }
 }

@@ -39,7 +39,7 @@ class RoutePanel(private val driver: WebDriver): Page(driver) {
             routeFromInput
         )
             .any { it.isDisplayed }
-    } catch (e: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
         false
     }
 }

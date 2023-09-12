@@ -1,10 +1,10 @@
 package controls
 
+import base.waitClickableAndClick
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import page.Page
-import java.time.Duration
 
 class MapControls(private val driver: WebDriver) : Page(driver) {
     // кнопка пробок
@@ -16,13 +16,12 @@ class MapControls(private val driver: WebDriver) : Page(driver) {
     private lateinit var extButton: WebElement
 
     fun openTrafficPanel(): TrafficPanel {
-        trafficButton.click()
-        Thread.sleep(Duration.ofSeconds(3).toMillis())
+        waitClickableAndClick(driver, trafficButton)
         return TrafficPanel(driver)
     }
 
     fun openExtControls(): ExtControls {
-        extButton.click()
+        waitClickableAndClick(driver, extButton)
         return ExtControls(driver)
     }
 }
