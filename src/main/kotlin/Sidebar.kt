@@ -15,9 +15,6 @@ open class Sidebar(private val driver: WebDriver) : Page(driver) {
     @FindBy(css = ".input__control")
     private lateinit var searchInput: WebElement
 
-    @FindBy(css = ".suggest__group")
-    private lateinit var searchResultView: WebElement
-
     @FindBy(css = "._type_route")
     private lateinit var routeButton: WebElement
 

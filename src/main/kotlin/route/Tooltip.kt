@@ -16,5 +16,4 @@ class Tooltip(driver: WebDriver): Page(driver) {
     private lateinit var closeButton: WebElement
 
     fun closeTooltip() = closeButton.click()
-
 }

@@ -30,17 +30,17 @@ class DriversSupplier(
         }
     }
 
-    private fun localDrivers(browsers: Set<String>) = browsers.associateWith {
+    private fun localDrivers(browsers: Set<String>): Map<String, WebDriver> = browsers.associateWith {
         when (it) {
             "chrome" ->
                 ChromeDriver().apply {
-                    manage().timeouts()?.implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS)
+                    manage().timeouts()?.implicitlyWait(ofSeconds(10))
                     manage().window()?.maximize()
-                } as WebDriver
+                }
 
             "firefox" ->
                 FirefoxDriver().apply {
-                    manage().timeouts()?.implicitlyWait(10, java.util.concurrent.TimeUnit.SECONDS)
+                    manage().timeouts()?.implicitlyWait(ofSeconds(10))
                     manage().window()?.maximize()
                 }
 

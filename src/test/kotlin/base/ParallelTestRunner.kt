@@ -22,14 +22,18 @@ fun runTest(driverList: Map<String, WebDriver>, testFun: (WebDriver) -> Unit) {
         try {
             result.get()
         } catch (e: Exception) {
-            try {
-                Path("build/tmp/test/${namedDriver.first}.html")
-                    .createFile()
-                    .bufferedWriter()
-                    .use { it.write(namedDriver.second.pageSource) }
-            } catch (_: Exception) {}
+            tryToSavePageSource(namedDriver)
 
             throw e.cause ?: e
         }
     }
+}
+
+private fun tryToSavePageSource(namedDriver: Pair<String, WebDriver>) {
+    try {
+        Path("build/tmp/test/${namedDriver.first}.html")
+            .createFile()
+            .bufferedWriter()
+            .use { it.write(namedDriver.second.pageSource) }
+    } catch (_: Exception) { }
 }
