@@ -4,13 +4,10 @@ import config.Config
 import config.DriversSupplier
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.Keys.ENTER
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
-import java.time.Duration
 
 open class BaseTest(
     private val config: Config = Config()
@@ -25,11 +22,7 @@ open class BaseTest(
 
         drivers.forEach {
             it.value.navigate().to(config.baseUrl)
-            WebDriverWait(it.value, Duration.ofSeconds(10)).until { webDriver: WebDriver ->
-                ((webDriver as JavascriptExecutor).executeScript(
-                    "return document.readyState"
-                ) == "complete")
-            }
+            it.value.waitReady(10)
         }
     }
 

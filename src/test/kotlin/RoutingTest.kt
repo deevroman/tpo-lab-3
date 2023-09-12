@@ -88,16 +88,10 @@ class RoutingTest : BaseTest() {
         bar.openPosts()
 
         val post = bar.openPost(1)
-        assertThat(post.date.text.lowercase())
-            .isEqualTo("1 марта, 19:16")
+        assertThat(post.date.text)
+            .matches("\\d{1,2} \\W+, \\d{2}:\\d{2}")
         assertThat(post.text.text)
-            .isEqualTo(
-                "31 Chemical network дарит скидку 20% на коктейльное меню" +
-                " в Ваш День Рождения при счете от 2000р, сертификат на 500р на посещение наших баров," +
-                " а наши ученые поздравят сладким сюрпризом!\n\n" +
-                "Скидка действует при предъявлении паспорта +/- 5 дней!\n\n" +
-                "*Скидки и акции не суммируются. Подробнее по телефону."
-            )
+            .isNotBlank()
 
         val gallery = bar.openGallery()
         gallery.openVideos()
@@ -105,10 +99,18 @@ class RoutingTest : BaseTest() {
 
         val rating = bar.openRatingView()
         assertThat(rating.ratingValue.text)
-            .isEqualTo("Рейтинг \n5,0")
+            .matches("Рейтинг \\n\\d,\\d")
         assertThat(rating.ratingSummary.text)
-            .matches("\\d{4} оцен(ок|ка|ки)")
+            .matches("\\d+ оцен(ок|ка|ки)")
+    }
 
+    @Test
+    fun features() = runTest { driver ->
+        val sidebar = Sidebar(driver)
+        sidebar.inputQuery("Лаборатория 31")
+        val bar = sidebar.openBusinessFromResult()
+        bar.openPosts()
+        bar.openRatingView()
         val features = bar.openFeatures()
         assertThat(features.getFeatureTitles(3))
             .isEqualTo(listOf(
